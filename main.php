@@ -109,7 +109,6 @@
                     <div class="username">
                         <h2>Menu</h2>
                     </div>
-                     <a href="editMain.php" class="dropdown-item">Edits <i class="fa-solid fa-calendar-days"></i></a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
                 </div>
         </div>
