@@ -33,7 +33,6 @@
             //console.log(firstLetter);
             console.log(capitalizedUsername);
         }
-//started using git
 
         // Check if the user is staff and hide/show the button
         const staffButton = document.getElementById('menu'); // Get the button by its ID
