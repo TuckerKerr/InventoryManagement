@@ -114,9 +114,9 @@
         </div>
     </div>
 
-<div class ="main-content">
-    <div class = "title">Inventory Management</div>
-<div class = box-container>
+<div class="main-content">
+    <div class="title">Inventory Management</div>
+<div class="box-container">
     <div class="box-left-column">
             <div class="box top-box">
                 <div class="box-header">
