@@ -613,6 +613,7 @@ function TonerTableLoader(){
                     console.log(data);
                     closeAddToner();
                     TonerTableLoader();
+                    tonerAddForm.reset();
                 })
                 .catch(error => {
                     console.error('Error:', error);
