@@ -285,7 +285,7 @@ body.modal-open{
   border-radius: 5px;
   border: 2px solid var(--bg);
   padding: 1px 10px;
-  
+  margin-bottom: 20px;
 }
 
 /* From Uiverse.io by satyamchaudharydev */ 
