@@ -311,14 +311,14 @@
                 <h2>Add Toner</h2>
             <form id="TonerAddForm" style="display: flex; flex-direction: column;">
                     <label for="Date-Received">Date Received:</label>
-                    <input type="date" id="Date-Received" name="date-received" value="<?php echo date('Y-m-d'); ?>" required>
+                    <input type="date" id="Date-Received" name="date-received" class="form-input" value="<?php echo date('Y-m-d'); ?>" required>
 
                     <label id="Toner-ID-Title" for="Toner-ID">Toner ID:</label>
-                    <input type="text" id="Toner-ID" name="toner-id" maxlength="255" required>
+                    <input type="text" id="Toner-ID" name="toner-id" maxlength="255" class="form-input" required>
                 
 
                     <label id="Color-Title" for="Color">Color:</label>
-                    <select id="Color" name="color" required>
+                    <select id="Color" name="color" class="form-input" required>
                             <option value="" disabled selected>Select Toner Color</option>
                             <option value="Black">Black</option>
                             <option value="Magenta">Magenta</option>
@@ -328,17 +328,17 @@
                     
 
                     <label id="Toner-Model-Title" for="Toner-Model"> Printer Model:</label>
-                    <input type="text" id="Toner-Model" name="toner-model" maxlength="255" required >
+                    <input type="text" id="Toner-Model" name="toner-model" maxlength="255" class="form-input" required >
 
                     <label id="Toner-Location-Title" for="Toner-Location" >Location:</label>
-                    <select id="Toner-Location" name="toner-location" maxlength="255" required>
+                    <select id="Toner-Location" name="toner-location" class="form-input" maxlength="255" required>
                         <option value="" disabled selected>Where is it going?</option>
                         <option value="CE/Q/W/Canon: Toner Closet">CE/Q/W/Canon: Toner Closet</option>
                         <option value="CF: Upstairs">CF: Upstairs</option>
                     </select>
                     
-                    <button type="submit" id="submitAddToner" style = "background-color: #302929; color: white; border: none; padding: 5px 20px; border-radius: 5px; cursor: pointer;" 
-                    class="btn btn-success mt-4">Submit</button>
+                    <button type="submit" id="submitAddToner" style = "margin-left: 0px; margin-top: 15px;" 
+                    class="action-btn">Submit</button>
                     
                     <div class="decorative-line"></div>
                 </form>

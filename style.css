@@ -279,6 +279,12 @@ body.modal-open{
   border-bottom: 1px solid #ccc; /* Optional: style the bottom border */
 }
 
+.form-inputs{
+  border-color: transparent;
+  border-bottom-color: black;
+  /*Css for the forms*/
+}
+
 /* From Uiverse.io by satyamchaudharydev */ 
 /* inspired form gumroad website */
 .action-btn {
