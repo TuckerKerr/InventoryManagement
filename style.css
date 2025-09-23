@@ -242,14 +242,28 @@ footer {
 }
 
 .close-popup {
-  float: right;
+  --bg: #000;
+  --hover-bg: #ccc;
+  --hover-text: #000;
+  color: #fff;
   cursor: pointer;
-  font-size: 20px;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  border: 1px solid var(--bg);
+  border-radius: 4px;
+  background: var(--bg);
+  transition: 0.2s;
+  float: right;
+}
+
+.close-popup:hover {
+  color: var(--hover-text);
+  transform: translate(0.25rem, -0.25rem);
+  background: var(--hover-bg);
+  box-shadow: -0.25rem 0.25rem var(--bg);
+}
+
+.close-popup:active {
+  transform: translate(0);
+  box-shadow: none;
 }
 
 body.modal-open{
