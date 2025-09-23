@@ -347,12 +347,10 @@
                 <h2>Add/Remove Model</h2>
                     <form id="ModelForm" style="display: flex; flex-direction: column;">
 
-                    <label for="Model-Tag" for="Model-Tag">Model:</label>
-                    <input type="text" id="Model-Tag" name="model-tag" maxlength="255" required>
+                    <input type="text" id="Model-Tag" class="form-inputs" name="model-tag" placeholder="Model" maxlength="255" required>
 
-                    <label for="Type-of-Delivery">Type of Equipment:</label>
-                    <select id="Type-of-Delivery" name="type-of-delivery" required>
-                    <option value="" disabled selected>Select Type of Equipment</option>
+                    <select id="Type-of-Delivery" name="type-of-delivery" class="form-inputs" required>
+                    <option value="" disabled selected>Select the Type of Equipment</option>
                     <option value="Laptops">Laptop</option>
                     <option value="Desktops">Desktops</option>
                     <option value="Monitors">Monitors</option>
@@ -361,18 +359,17 @@
                     <option value="Peripherals">Consumable</option>
                     </select>  
 
-                    <label for="Campus">Location:</label>
-                    <select id="Campus" name="campus" required>
+                    <select id="Campus" name="campus" class="form-inputs" required>
                       <option value="" disabled selected>Enter Campus</option>
                       <option value="Downcity">Downcity</option>
                       <option value="Harborside">Harborside</option>
                     </select>
                     
-                    <button type="submit" style = "background-color: #302929; color: white; border: none; padding: 5px 20px; border-radius: 5px; cursor: pointer;" name="action" value="add"
-                    class="btn btn-success mt-4">Add</button>
+                    <button type="submit"name="action" value="add"
+                    class="action-btn" style="margin-bottom: 10px;">Add</button>
 
-                    <button type="submit" style = "background-color: #302929; color: white; border: none; padding: 5px 20px; border-radius: 5px; cursor: pointer;" name="action" value="remove"
-                    class="btn btn-success mt-4">Remove</button>
+                    <button type="submit" name="action" value="remove"
+                    class="action-btn" style="margin-top: 10px;">Remove</button>
                     </form>
             </div>
      </div>
