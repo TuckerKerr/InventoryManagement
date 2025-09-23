@@ -279,7 +279,7 @@
          <div id="RemovePopup" class="popup">
             <div class="popup-content">
                 <button class="close-popup" id="closeRemove" onclick="closeButtonDelete()"><i class="fa-solid fa-xmark"></i></button>
-                <p>Remove Items</p>
+                <h2>Remove Items</h2>
                 <form id="RemoveQuantityForm">
                     <input type="hidden" name="model" id="modelRemove">
                     <input type="hidden" name="delivery" id="deliveryRemove">
@@ -292,7 +292,7 @@
         <div id="TonerPopup" class="popup">
             <div class="popup-content">
                 <button class="close-popup" onclick="closeButtonToner()"><i class="fa-solid fa-xmark"></i></button>
-                <p>Remove Toner</p>
+                <h2>Remove Toner</h2>
                 <form id="TonerForm">
                     <input type="hidden" name="sticker_id" id="sticker_id">
                     <span style="padding: 10px; ">Are you sure you want to get rid of the toner: </span>
@@ -308,7 +308,7 @@
         <div id="TonerAdd" class="popup">
             <div class="popup-content-input">
                 <button class="close-popup" onclick="closeAddToner()"><i class="fa-solid fa-xmark"></i></button>
-                <p>Add Toner</p>
+                <h2>Add Toner</h2>
             <form id="TonerAddForm" style="display: flex; flex-direction: column;">
                     <label for="Date-Received">Date Received:</label>
                     <input type="date" id="Date-Received" name="date-received" value="<?php echo date('Y-m-d'); ?>" required>
@@ -348,7 +348,7 @@
         <div id="ModelAdd" class="popup">
             <div class="popup-content-input">
                 <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
-                <p>Add Toner</p>
+                <h2>Add/Remove Model</h2>
                     <form id="ModelForm" style="display: flex; flex-direction: column;">
 
                     <label for="Model-Tag" for="Model-Tag">Model:</label>
