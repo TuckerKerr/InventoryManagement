@@ -266,7 +266,7 @@
         <div id="InputPopup" class="popup">
             <div class="popup-content">
                 <button class="close-popup" id="closeInput" onclick="closeButtonAdd()"><i class="fa-solid fa-xmark"></i></button>
-                <p>Add Items</p>
+                <h2>Add Items</h2>
                 <form id="AddQuantityForm">
                     <input type="hidden" name="model" id="modelInput">
                     <input type="hidden" name="delivery" id="deliveryInput">
