@@ -1,0 +1,1 @@
+This is my IT Asset Management Project. This project is built for my current IT department in my college career. This is ultimately to help higher-ups and students understand where items are, and how much of things we have for reporting.
