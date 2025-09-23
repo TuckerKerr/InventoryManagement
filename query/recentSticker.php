@@ -9,7 +9,7 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT sticker_id FROM delivery ORDER BY id DESC LIMIT 1;";
+    $sql = "SELECT sticker_id FROM Toner ORDER BY id DESC LIMIT 1;";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
