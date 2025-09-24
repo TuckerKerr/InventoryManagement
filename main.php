@@ -803,6 +803,7 @@ function TonerTableLoader(){
     function closeModelAdd(){
         modelAR.style.display = "none";
         document.body.classList.remove('modal-open');
+        modelForm.reset();
         console.log("clicked");
         }
 
