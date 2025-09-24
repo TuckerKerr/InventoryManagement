@@ -504,7 +504,7 @@ views.tableviews.forEach((viewName, index) => {
             tr.innerHTML = Object.values(row).map((val, index, arr) => {
                 if(index === 0){
                     const idValue = arr[1];
-                    return `<td>${val} <button data-role="${delivery}" class="action-btn" id="${idValue}" onclick="showPopupDelete(this)" name="operation" value="remove_${idValue}"><i class="fa-solid fa-minus"></i></button><button data-role="${delivery}"  class="action-btn" id="${idValue}" onclick="showPopupAdd(this)"  name="operation" value="add_${idValue}"><i class="fa-solid fa-plus"></i></button></td>`;
+                    return `<td style="text-align:right;"><span style="display:flex; justify-content:space-between;">${val}<span><button data-role="${delivery}" class="action-btn" id="${idValue}" onclick="showPopupDelete(this)" name="operation" value="remove_${idValue}"><i class="fa-solid fa-minus"></i></button><button data-role="${delivery}"  class="action-btn" id="${idValue}" onclick="showPopupAdd(this)"  name="operation" value="add_${idValue}"><i class="fa-solid fa-plus"></i></button></span></span></td>`;
                 }
                 return `<td>${val}</td>`;
             }).join('');
@@ -533,9 +533,9 @@ function TonerTableLoader(){
              tr.innerHTML = Object.values(row).map((val, index, arr) => {
                 if(index === 0){
                     const idValue = arr[0];
-                    return `<td>${val} <button class="action-btn" id="${idValue}" onclick="showButtonToner(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button></td>`;
+                    return `<td class="tonerRows">${val} <button class="action-btn" id="${idValue}" onclick="showButtonToner(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button></td>`;
                 }
-                return `<td>${val}</td>`;
+                return `<td class="tonerRows">${val}</td>`;
             }).join('');
             tbody.appendChild(tr);
             });
