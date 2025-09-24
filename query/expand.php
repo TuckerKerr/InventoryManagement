@@ -15,25 +15,25 @@ try {
 
     switch($viewId) {
         case 'DesktopsInSystem':
-            $query = "SELECT * FROM DesktopsInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM DesktopsInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
             
         case 'LaptopsInSystem':
-            $query = "SELECT * FROM LaptopsInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM LaptopsInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
             
         case 'MonitorsInSystem':
-            $query = "SELECT * FROM MonitorsInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM MonitorsInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
 
         case 'PeripheralsInSystem':
-            $query = "SELECT * FROM PeripheralsInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM PeripheralsInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
@@ -51,12 +51,12 @@ try {
 
             break;
         case 'PrintersInSystem':
-            $query = "SELECT * FROM PrintersInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM PrintersInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
         case 'MacsInSystem':
-            $query = "SELECT * FROM MacsInSystem ORDER BY `Model` ASC";
+            $query = "SELECT * FROM MacsInSystem ORDER BY `Num_units` + 0 DESC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
