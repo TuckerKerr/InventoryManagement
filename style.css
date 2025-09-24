@@ -228,6 +228,7 @@ footer {
   padding: 20px;
   border-radius: 10px;
   min-width: 300px;
+  box-shadow: -.25rem .25rem black;
 }
 
 .popup-content-input{
@@ -236,6 +237,7 @@ footer {
   min-width: 300px;
   width: 60%;
   background-color: #ffff;
+  box-shadow: -.25rem .25rem black;
   margin-top: 1.5rem; 
   margin-right: auto; 
   margin-left: auto; 
@@ -322,6 +324,7 @@ body.modal-open{
   font-weight: 500;
   font-weight: bold; 
   font-size: 48px;
+  text-shadow: -.15rem .15rem #ccc;
   display: flex;
   justify-content: center;      
   align-items: center;
@@ -373,15 +376,18 @@ body.modal-open{
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 10px;
+    padding: 5px;
     border-radius: 2px;
+    box-shadow: -.25rem .25rem black;
     background-color: #333;
     border-bottom: 1px solid var(--border-color);
 }
 
 .box-header h2 {
-    font-size: 18px;
+    font-size: 25px;
+    font-weight: bold;
     color: #ccc;
+    text-shadow: -.15rem .15rem black;
     margin: 0;
     position: sticky;
 }
