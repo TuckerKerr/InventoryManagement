@@ -31,7 +31,6 @@
             //const firstLetter = username.charAt(0).toUpperCase();
             //document.getElementById('profileIcon').textContent = firstLetter;
             //console.log(firstLetter);
-            console.log(capitalizedUsername);
         }
 
         // Check if the user is staff and hide/show the button
@@ -39,10 +38,8 @@
         if (staffButton) {
             if (admin === 'true') {
                 staffButton.style.display = 'block'; // Show the button if the user is staff
-                console.log("Admin");
             } else {
                 staffButton.style.display = 'none'; // Hide the button if the user is not staff
-                console.log('Not Admin');
             }
         } else {
             console.log("staffButton element not found");
@@ -126,7 +123,11 @@
                     <div class="tablewrapper">
                    <table id="Laptopstable" border = "1">
                     <thead>
-                        <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                        <tr>
+                            <th style="padding: 0.75rem 1rem;">Quantity</th>
+                            <th style="padding: 0.75rem 1rem;">Model</th>
+                            <th style="padding: 0.75rem 1rem;">Campus</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -141,7 +142,11 @@
                     <div class="tablewrapper">
                    <table id="Desktopstable" border = "1">
                     <thead>
-                       <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                       <tr>
+                        <th style="padding: 0.75rem 1rem;">Quantity</th>
+                        <th style="padding: 0.75rem 1rem;">Model</th>
+                        <th style="padding: 0.75rem 1rem;">Campus</th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -159,7 +164,11 @@
                     <div class="tablewrapper">
                    <table id="Monitorstable" border = "1">
                     <thead>
-                        <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                        <tr>
+                            <th style="padding: 0.75rem 1rem;">Quantity</th>
+                            <th style="padding: 0.75rem 1rem;">Model</th>
+                            <th style="padding: 0.75rem 1rem;">Campus</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -175,7 +184,11 @@
                     <div class="tablewrapper">
                    <table id="Peripheralstable" border = "1">
                     <thead>
-                        <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                        <tr>
+                            <th style="padding: 0.75rem 1rem;">Quantity</th>
+                            <th style="padding: 0.75rem 1rem;">Model</th>
+                            <th style="padding: 0.75rem 1rem;">Campus</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -193,7 +206,11 @@
                     <div class="tablewrapper">
                    <table id="Printerstable" border = "1">
                     <thead>
-                        <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                        <tr>
+                            <th style="padding: 0.75rem 1rem;">Quantity</th>
+                            <th style="padding: 0.75rem 1rem;">Model</th>
+                            <th style="padding: 0.75rem 1rem;">Campus</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -209,7 +226,11 @@
                     <div class="tablewrapper">
                    <table id="avtable" border = "1">
                     <thead>
-                        <tr><th>Quantity</th><th>Model</th><th>Campus</th></tr>
+                        <tr>
+                            <th style="padding: 0.75rem 1rem;">Quantity</th>
+                            <th style="padding: 0.75rem 1rem;">Model</th>
+                            <th style="padding: 0.75rem 1rem;">Campus</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                    </table>
@@ -231,27 +252,27 @@
                     <thead id="tonerHead">
                         <tr>
                             <th style="position: sticky;">
-                                <label>
+                                <label class="sortButtons">
                                     <input type="radio" name="search" value="sticker_id" style="display: none;">Sticker ID</input>
                                 </label>
                             </th>
                             <th style="position: sticky;">
-                                <label>
+                                <label class="sortButtons">
                                     <input type="radio" name="search" value="Toner_ID" style="display: none;">Toner ID</input>
                                 </label>
                             </th>
                             <th style="position: sticky;">
-                                <label>
+                                <label class="sortButtons">
                                     <input type="radio" name="search" value="Printer_model" style="display: none;">Printer Model</input>
                                 </label>
                             </th>
                             <th style="position: sticky;">
-                                <label>
+                                <label class="sortButtons">
                                     <input type="radio" name="search" value="Color" style="display: none;">Color</input>
                                 </label>
                             </th>
                             <th style="position: sticky;">
-                                <label>
+                                <label class="sortButtons">
                                     <input type="radio" name="search" value="Located" style="display: none;">Location</input>
                                 </label>
                             </th>
@@ -366,10 +387,10 @@
                     </select>
                     
                     <button type="submit"name="action" value="add"
-                    class="action-btn" style="margin-bottom: 10px;">Add</button>
+                    class="action-btn" style="margin-left:0px; margin-bottom: 10px;">Add</button>
 
                     <button type="submit" name="action" value="remove"
-                    class="action-btn" style="margin-top: 10px;">Remove</button>
+                    class="action-btn" style="margin-left:0px; margin-top: 10px;">Remove</button>
                     </form>
             </div>
      </div>
@@ -444,7 +465,7 @@
 
   profileIcon.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevents the document click from immediately hiding the dropdown
-    console.log("clicked");
+
     dropdown.classList.toggle("show");
   });
 
@@ -461,7 +482,7 @@
 
   menuIcon.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevents the document click from immediately hiding the dropdown
-    console.log("clicked");
+
     menudropdown.classList.toggle("show");
   });
 
@@ -495,9 +516,7 @@ views.tableviews.forEach((viewName, index) => {
     .then(response=> response.json())
     .then(result=> {
         if(result.success && Array.isArray(result.data)){
-        console.log(tableId);
         const tbody = document.querySelector(`#${tableId} tbody`);
-        console.log(viewName);
         tbody.innerHTML=''
         result.data.forEach(row=> {
             const tr=document.createElement('tr');
@@ -563,7 +582,6 @@ function TonerTableLoader(){
     document.getElementById('searchInput').addEventListener('input', function(){
         const searchTerm = this.value.toLowerCase();
         const thead = document.getElementById('tonerHead');
-        console.log(searchTerm);
         fetch(`query/searchTest.php?EQSearch=${searchTerm}&viewInfo=TonerInSystem`)
                 .then(response => response.text())
                 .then(data => {
@@ -576,8 +594,6 @@ function TonerTableLoader(){
                 const rows = tbody.getElementsByTagName('tr');
 
                 Array.from(rows).forEach((row,index) => {
-                    console.log(index);
-
                     const text = Array.from(row.getElementsByTagName('td'))
                         .map(td => td.textContent.toLowerCase())
                         .join(' ');
@@ -592,7 +608,6 @@ function TonerTableLoader(){
     document.querySelectorAll('input[name="search"]').forEach(radio =>{
         radio.addEventListener('change', event => {
         const sort = event.target.value;
-        console.log(sort);
         search = sort;
         TonerTableLoader();
         });
@@ -610,7 +625,6 @@ function TonerTableLoader(){
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
                     closeAddToner();
                     TonerTableLoader();
                     tonerAddForm.reset();
@@ -632,7 +646,6 @@ function TonerTableLoader(){
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
                     closeButtonToner();
                     TonerTableLoader();
                     document.getElementById('searchInput').value = '';
@@ -657,7 +670,6 @@ function TonerTableLoader(){
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
                     closeModelAdd();
                     TableLoader();
                     modelForm.reset();
@@ -681,7 +693,6 @@ function TonerTableLoader(){
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
                     closeButtonAdd();
                     closeButtonDelete();
                     TableLoader();
@@ -706,7 +717,6 @@ function TonerTableLoader(){
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
                     closeButtonAdd();
                     closeButtonDelete();
                     TableLoader();
@@ -735,8 +745,6 @@ function TonerTableLoader(){
     function showPopupAdd(button) {
         const model= button.id;
         const table = button.dataset.role;
-        console.log(model);
-        console.log(table);
         document.getElementById('modelInput').value = model;
         document.getElementById('deliveryInput').value = table;
         popup.style.display = "flex";
@@ -747,7 +755,6 @@ function TonerTableLoader(){
     function closeButtonAdd(){
         popup.style.display = "none";
         document.body.classList.remove('modal-open');
-        console.log("clicked");
         }
 
         // Show the popup
@@ -764,7 +771,6 @@ function TonerTableLoader(){
     function closeButtonDelete(){
         RemovePopup.style.display = "none";
         document.body.classList.remove('modal-open');
-        console.log("clicked");
         }
 
     // open the popup
@@ -774,14 +780,12 @@ function TonerTableLoader(){
         document.getElementById('tonerNumber').textContent = toner;
         tonerBtn.style.display = "flex";
         document.body.classList.add('modal-open');
-        console.log("clicked");
         }
 
     // Close the popup
     function closeButtonToner(){
         tonerBtn.style.display = "none";
         document.body.classList.remove('modal-open');
-        console.log("clicked");
         }
 
     
@@ -789,21 +793,18 @@ function TonerTableLoader(){
     function showAddToner(){
         tonerAdd.style.display = "flex";
         document.body.classList.add('modal-open');
-        console.log("clicked");
         }
 
     // Close the popup
     function closeAddToner(){
         tonerAdd.style.display = "none";
         document.body.classList.remove('modal-open');
-        console.log("clicked");
         }
 
     // Open the popup
     function showModelAdd(){
         modelAR.style.display = "flex";
         document.body.classList.add('modal-open');
-        console.log("clicked");
         }
 
     // Close the popup
@@ -811,7 +812,6 @@ function TonerTableLoader(){
         modelAR.style.display = "none";
         document.body.classList.remove('modal-open');
         modelForm.reset();
-        console.log("clicked");
         }
 
 
@@ -827,7 +827,6 @@ async function printSticker(event) {
         }
 
         const data = await response.text(); // Get the response as plain text
-        console.log(data); // Log the response to check its format
 
         const tonerResultBody = document.getElementById('recentResult');
         tonerResultBody.innerHTML = ''; // Clear previous results
