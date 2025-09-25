@@ -52,6 +52,7 @@
     document.addEventListener('DOMContentLoaded', function(){
         TableLoader();
         TonerTableLoader();
+        EQTableLoader();
     });
 
     let idleTime = 0;
@@ -284,6 +285,50 @@
             </div>
         </div>
 
+        <div class="tonerBottom">
+            <div class="table-header">
+                    <h2>Open Equipment</h2>
+                    <button style="margin-left: 0;"class="action-btn" onclick="showAddEquipment()">Input Equipment</button>
+                    <input type="text" id="EQsearchInput" placeholder="Search...">
+                </div>
+                <div class="box-content">
+                    <div class="tablewrapper-toner">
+                   <table id="eqTable" border = "1">
+                    <thead id="eqHead">
+                        <tr>
+                            <th style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="asset_tag" style="display: none;">Asset Tag</input>
+                                </label>
+                            </th>
+                            <th style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="EQ_Type" style="display: none;">Hardware Type</input>
+                                </label>
+                            </th>
+                            <th style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Model" style="display: none;">Model Type</input>
+                                </label>
+                            </th>
+                            <th style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="located" style="display: none;">Location</input>
+                                </label>
+                            </th>
+                            <th style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="campus" style="display: none;">Campus</input>
+                                </label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                   </table>
+                </div>
+            </div>
+        </div>
+
         <div id="InputPopup" class="popup">
             <div class="popup-content">
                 <button class="close-popup" id="closeInput" onclick="closeButtonAdd()"><i class="fa-solid fa-xmark"></i></button>
@@ -394,6 +439,57 @@
                     </form>
             </div>
      </div>
+
+     <div id="EquipmentAdd" class="popup">
+            <div class="popup-content-input">
+                <button class="close-popup" onclick="closeAddEquipment()"><i class="fa-solid fa-xmark"></i></button>
+                <h2>Add Open Equipment</h2>
+                    <form id="EquipmentAddForm" style="display: flex; flex-direction: column;">
+
+                    <input type="text" id="asset_tag" class="form-inputs" name="asset_tag" placeholder="Asset Tag" maxlength="255" required>
+
+                    <select id="Type-of-Delivery" onchange="modelSelection(this.value)" name="type-of-delivery" class="form-inputs" required>
+                        <option value="" disabled selected>Select the Type of Equipment</option>
+                        <option value="Laptops">Laptop</option>
+                        <option value="Desktops">Desktops</option>
+                        <option value="Monitors">Monitors</option>
+                        <option value="Macs">Macs</option>
+                        <option value="Printers">Printers</option>
+                        <option value="Peripherals">Consumable</option>
+                    </select>  
+
+                    <select id="EQ_Model" name="eq_model" class="form-inputs" required>
+                        <option value="" disabled selected>Select the model</option>
+                    </select>
+
+                    <input type="text" id="located" class="form-inputs" name="located" placeholder="Location" maxlength="255" required>
+
+                    <select id="Campus" name="campus" class="form-inputs" required>
+                      <option value="" disabled selected>Enter Campus</option>
+                      <option value="Downcity">Downcity</option>
+                      <option value="Harborside">Harborside</option>
+                    </select>
+                    
+                    <button type="submit"name="action" value="add"
+                    class="action-btn" style="margin-left:0px; margin-bottom: 10px;">Add</button>
+                    </form>
+            </div>
+     </div>
+
+     <div id="EQPopup" class="popup">
+            <div class="popup-content">
+                <button class="close-popup" onclick="closeButtonEQ()"><i class="fa-solid fa-xmark"></i></button>
+                <h2>Remove Equipment</h2>
+                <form id="eqForm">
+                    <input type="hidden" name="asset_tags" id="asset_tags">
+                    <span style="padding: 10px; ">Are you sure you want to get rid of the Equipment: </span>
+                    <span id="eqNumber" style="font-weight: bold;"></span>
+                    <br>
+                    <br>
+                    <button type="submit" name="action" value="remove" style="width: 100%; margin-left: 0;"class="action-btn" > Confirm </button>
+                </form>
+            </div>
+        </div>
            
 
     </div>
@@ -444,6 +540,12 @@
 
     const tonerAdd = document.getElementById("TonerAdd");
     const tonerAddForm = document.getElementById("TonerAddForm");
+
+    const equipmentAdd = document.getElementById("EquipmentAdd");
+    const equipmentAddForm = document.getElementById("EquipmentAddForm");
+
+    const eqBtn = document.getElementById("EQPopup");
+    const deleteEQ = document.getElementById('eqForm');
 
     const modelAR = document.getElementById('ModelAdd');
     const modelForm = document.getElementById('ModelForm');
@@ -574,6 +676,33 @@ function TonerTableLoader(){
     }
 
 
+    function EQTableLoader(){
+        fetch(`query/expand.php?view=OpenEQ&search=${search}`)
+            .then(response=> response.json())
+            .then(result=> {
+                if(result.success && Array.isArray(result.data)){
+                const tbody = document.querySelector(`#eqTable tbody`);
+                tbody.innerHTML=''
+                result.data.forEach(row=> {
+                    const tr=document.createElement('tr');
+                    tr.innerHTML = Object.values(row).map((val, index, arr) => {
+                        if(index === 0){
+                            const idValue = arr[0];
+                            return `<td class="tonerRows">${val} <button class="action-btn" id="${idValue}" onclick="showButtonEQ(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button></td>`;
+                        }
+                        return `<td class="tonerRows">${val}</td>`;
+                    }).join('');
+                    tbody.appendChild(tr);
+                    });
+                }
+            else{
+                    console.error('Unexpected Response Format: ', result);
+                }
+            })
+                .catch(error => console.error('Error fetching data:', error));
+            }
+
+
     //END Code for the views
 
 
@@ -591,6 +720,30 @@ function TonerTableLoader(){
 
 
                 const tbody = document.querySelector('#tonerTable tbody');
+                const rows = tbody.getElementsByTagName('tr');
+
+                Array.from(rows).forEach((row,index) => {
+                    const text = Array.from(row.getElementsByTagName('td'))
+                        .map(td => td.textContent.toLowerCase())
+                        .join(' ');
+                    row.classList.toggle('hidden', !text.includes(searchTerm));
+
+            
+                });
+        })
+
+        document.getElementById('EQsearchInput').addEventListener('input', function(){
+        const searchTerm = this.value.toLowerCase();
+        const thead = document.getElementById('EQHead');
+        fetch(`query/searchTest.php?EQSearch=${searchTerm}&viewInfo=OpenEQ`)
+                .then(response => response.text())
+                .then(data => {
+                    tbody.innerHTML = data;
+                })
+                .catch(console.error)
+
+
+                const tbody = document.querySelector('#eqTable tbody');
                 const rows = tbody.getElementsByTagName('tr');
 
                 Array.from(rows).forEach((row,index) => {
@@ -728,6 +881,65 @@ function TonerTableLoader(){
     });
 
 
+        function modelSelection(selected){
+            const formData = new FormData();
+            formData.append('type-of-delivery', selected);
+
+            fetch('query/modelDropdown.php',{
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data =>{
+                    document.getElementById("EQ_Model").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        equipmentAddForm.addEventListener('submit',function(event){
+        event.preventDefault();
+
+        const formData = new FormData(equipmentAddForm);
+        const actionValue = event.submitter.value;
+        formData.set('action', actionValue);
+
+        fetch('query/openEQ.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    closeAddEquipment();
+                    EQTableLoader();
+                    equipmentAddForm.reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+    });
+
+    deleteEQ.addEventListener('submit',function(event){
+        event.preventDefault();
+
+        const formData = new FormData(deleteEQ);
+        const actionValue = event.submitter.value;
+        formData.set('action', actionValue);
+    
+        fetch('query/openEQ.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    closeButtonEQ();
+                    EQTableLoader();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+    });
 
 
     //Code to auto adjust the tables
@@ -813,6 +1025,35 @@ function TonerTableLoader(){
         document.body.classList.remove('modal-open');
         modelForm.reset();
         }
+    // Open the popup
+    function showAddEquipment(){
+        equipmentAdd.style.display = "flex";
+        document.body.classList.add('modal-open');
+        }
+
+    // Close the popup
+    function closeAddEquipment(){
+        equipmentAdd.style.display = "none";
+        document.body.classList.remove('modal-open');
+        equipmentAddForm.reset();
+        }
+
+    // open the popup
+    function showButtonEQ(button){
+        const asset_tag= button.id;
+        document.getElementById('asset_tags').value = asset_tag;
+        console.log(document.getElementById('asset_tags').value)
+        document.getElementById('eqNumber').textContent = asset_tag;
+        eqBtn.style.display = "flex";
+        document.body.classList.add('modal-open');
+        }
+
+    // Close the popup
+    function closeButtonEQ(){
+        eqBtn.style.display = "none";
+        document.body.classList.remove('modal-open');
+        }
+
 
 
     
