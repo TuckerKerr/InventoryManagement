@@ -74,7 +74,7 @@ $viewId = $_GET['viewInfo'];
                   echo "<tr>";
                   echo "<td>" . $row["asset_tag"] . 
                     '<button class="action-btn" id="'.$row["asset_tag"] .'"'.
-                    'onclick="showButtonToner(this)" name="operation" value="' . $row["asset_tag"] .
+                    'onclick="showButtonEQ(this)" name="operation" value="' . $row["asset_tag"] .
                     '"><i class="fa-solid fa-minus"></i></button>'.
                     "</td>";
                   echo "<td>" . $row["EQ_Type"] . "</td>";

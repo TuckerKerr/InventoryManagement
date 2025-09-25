@@ -240,95 +240,6 @@
             </div>
         </div>
 
-        <div class="tonerBottom">
-            <div class="table-header">
-                    <h2>Toner</h2>
-                    <button style="margin-left: 0;"class="action-btn" onclick="showAddToner()">Input Toner</button>
-                    <button onclick="printSticker(event)" class="action-btn" id="print">Print Sticker</button>
-                    <input type="text" id="searchInput" placeholder="Search...">
-                </div>
-                <div class="box-content">
-                    <div class="tablewrapper-toner">
-                   <table id="tonerTable" border = "1">
-                    <thead id="tonerHead">
-                        <tr>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="sticker_id" style="display: none;">Sticker ID</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="Toner_ID" style="display: none;">Toner ID</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="Printer_model" style="display: none;">Printer Model</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="Color" style="display: none;">Color</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="Located" style="display: none;">Location</input>
-                                </label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                   </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="tonerBottom">
-            <div class="table-header">
-                    <h2>Open Equipment</h2>
-                    <button style="margin-left: 0;"class="action-btn" onclick="showAddEquipment()">Input Equipment</button>
-                    <input type="text" id="EQsearchInput" placeholder="Search...">
-                </div>
-                <div class="box-content">
-                    <div class="tablewrapper-toner">
-                   <table id="eqTable" border = "1">
-                    <thead id="eqHead">
-                        <tr>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="asset_tag" style="display: none;">Asset Tag</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="EQ_Type" style="display: none;">Hardware Type</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="Model" style="display: none;">Model Type</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="located" style="display: none;">Location</input>
-                                </label>
-                            </th>
-                            <th style="position: sticky;">
-                                <label class="sortButtons">
-                                    <input type="radio" name="search" value="campus" style="display: none;">Campus</input>
-                                </label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                   </table>
-                </div>
-            </div>
-        </div>
-
         <div id="InputPopup" class="popup">
             <div class="popup-content">
                 <button class="close-popup" id="closeInput" onclick="closeButtonAdd()"><i class="fa-solid fa-xmark"></i></button>
@@ -446,7 +357,7 @@
                 <h2>Add Open Equipment</h2>
                     <form id="EquipmentAddForm" style="display: flex; flex-direction: column;">
 
-                    <input type="text" id="asset_tag" class="form-inputs" name="asset_tag" placeholder="Asset Tag" maxlength="255" required>
+                    <input type="text" id="asset_tag" class="form-inputs" name="asset_tag" placeholder="Asset Tag" maxlength="5" required>
 
                     <select id="Type-of-Delivery" onchange="modelSelection(this.value)" name="type-of-delivery" class="form-inputs" required>
                         <option value="" disabled selected>Select the Type of Equipment</option>
@@ -462,7 +373,13 @@
                         <option value="" disabled selected>Select the model</option>
                     </select>
 
-                    <input type="text" id="located" class="form-inputs" name="located" placeholder="Location" maxlength="255" required>
+                    <select id="located" name="located" class="form-inputs" required>
+                        <option value="" disabled selected>Select where the Item is</option>
+                        <option value="Work Bench">Work Bench</option>
+                        <option value="Cage">Cage</option>
+                        <option value="Techs Desk">Techs Desk</option>
+                        <option value="Holding">Holding</option>
+                    </select>  
 
                     <select id="Campus" name="campus" class="form-inputs" required>
                       <option value="" disabled selected>Enter Campus</option>
@@ -492,6 +409,97 @@
         </div>
            
 
+    </div>
+
+    <div class="bottom-box-container">
+        <div class="tonerBottom-left">
+            <div class="table-header">
+                    <h2>Toner</h2>
+                    <button style="margin-left: 0;"class="action-btn" onclick="showAddToner()">Input Toner</button>
+                    <button onclick="printSticker(event)" class="action-btn" id="print">Print Sticker</button>
+                    <input type="text" id="searchInput" placeholder="Search...">
+                </div>
+                <div class="box-content">
+                    <div class="tablewrapper-toner">
+                   <table id="tonerTable" border = "1">
+                    <thead id="tonerHead">
+                        <tr>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="sticker_id" style="display: none;">Sticker ID</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Toner_ID" style="display: none;">Toner ID</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Printer_model" style="display: none;">Printer Model</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Color" style="display: none;">Color</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Located" style="display: none;">Location</input>
+                                </label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                   </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tonerBottom-right">
+            <div class="table-header">
+                    <h2>Open Equipment</h2>
+                    <button style="margin-left: 0;"class="action-btn" onclick="showAddEquipment()">Input Equipment</button>
+                    <input type="text" id="EQsearchInput" placeholder="Search...">
+                </div>
+                <div class="box-content">
+                    <div class="tablewrapper-toner">
+                   <table id="eqTable" border = "1">
+                    <thead id="eqHead">
+                        <tr>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="asset_tag" style="display: none;">Asset Tag</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="EQ_Type" style="display: none;">Hardware Type</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="Model" style="display: none;">Model Type</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="located" style="display: none;">Location</input>
+                                </label>
+                            </th>
+                            <th id='tonerTH' style="position: sticky;">
+                                <label class="sortButtons">
+                                    <input type="radio" name="search" value="campus" style="display: none;">Campus</input>
+                                </label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                   </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="overlay" id="overlay"></div>
@@ -661,7 +669,13 @@ function TonerTableLoader(){
              tr.innerHTML = Object.values(row).map((val, index, arr) => {
                 if(index === 0){
                     const idValue = arr[0];
-                    return `<td class="tonerRows">${val} <button class="action-btn" id="${idValue}" onclick="showButtonToner(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button></td>`;
+                    return `<td class="tonerRows">
+                     <span style="display:flex; justify-content:space-between;">${val} 
+                    <span>
+                        <button class="action-btn" id="${idValue}" onclick="showButtonToner(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button>
+                        </span>
+                    </span>
+                </td>`;
                 }
                 return `<td class="tonerRows">${val}</td>`;
             }).join('');
@@ -688,7 +702,13 @@ function TonerTableLoader(){
                     tr.innerHTML = Object.values(row).map((val, index, arr) => {
                         if(index === 0){
                             const idValue = arr[0];
-                            return `<td class="tonerRows">${val} <button class="action-btn" id="${idValue}" onclick="showButtonEQ(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button></td>`;
+                            return `<td class="tonerRows">
+                            <span style="display:flex; justify-content:space-between;">${val} 
+                            <span>
+                            <button class="action-btn" id="${idValue}" onclick="showButtonEQ(this)" name="operation" value="${idValue}"><i class="fa-solid fa-minus"></i></button>
+                            </span>
+                        </span>
+                    </td>`;
                         }
                         return `<td class="tonerRows">${val}</td>`;
                     }).join('');
@@ -935,6 +955,7 @@ function TonerTableLoader(){
                 .then(data => {
                     closeButtonEQ();
                     EQTableLoader();
+                    document.getElementById('EQsearchInput').value = '';
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -961,12 +982,22 @@ function TonerTableLoader(){
         document.getElementById('deliveryInput').value = table;
         popup.style.display = "flex";
         document.body.classList.add('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
     function closeButtonAdd(){
         popup.style.display = "none";
         document.body.classList.remove('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
         // Show the popup
@@ -977,12 +1008,22 @@ function TonerTableLoader(){
         document.getElementById('deliveryRemove').value = table;
         RemovePopup.style.display = "flex";
         document.body.classList.add('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
     function closeButtonDelete(){
         RemovePopup.style.display = "none";
         document.body.classList.remove('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
     // open the popup
@@ -992,12 +1033,22 @@ function TonerTableLoader(){
         document.getElementById('tonerNumber').textContent = toner;
         tonerBtn.style.display = "flex";
         document.body.classList.add('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
     function closeButtonToner(){
         tonerBtn.style.display = "none";
         document.body.classList.remove('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
     
@@ -1005,18 +1056,33 @@ function TonerTableLoader(){
     function showAddToner(){
         tonerAdd.style.display = "flex";
         document.body.classList.add('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
     function closeAddToner(){
         tonerAdd.style.display = "none";
         document.body.classList.remove('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
     // Open the popup
     function showModelAdd(){
         modelAR.style.display = "flex";
         document.body.classList.add('modal-open');
+
+       document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
@@ -1024,11 +1090,21 @@ function TonerTableLoader(){
         modelAR.style.display = "none";
         document.body.classList.remove('modal-open');
         modelForm.reset();
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
     // Open the popup
     function showAddEquipment(){
         equipmentAdd.style.display = "flex";
         document.body.classList.add('modal-open');
+
+       document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
@@ -1036,6 +1112,11 @@ function TonerTableLoader(){
         equipmentAdd.style.display = "none";
         document.body.classList.remove('modal-open');
         equipmentAddForm.reset();
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
     // open the popup
@@ -1046,12 +1127,22 @@ function TonerTableLoader(){
         document.getElementById('eqNumber').textContent = asset_tag;
         eqBtn.style.display = "flex";
         document.body.classList.add('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = '';
+            el.style.top = '';
+        });
         }
 
     // Close the popup
     function closeButtonEQ(){
         eqBtn.style.display = "none";
         document.body.classList.remove('modal-open');
+
+        document.querySelectorAll("#tonerTH").forEach(el => {
+            el.style.position = 'sticky';
+            el.style.top = 0;
+        });
         }
 
 
