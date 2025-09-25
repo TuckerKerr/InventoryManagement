@@ -53,6 +53,41 @@ $viewId = $_GET['viewInfo'];
               echo "<br>No results found for <strong> Toner ID: " . $searchterm . "</strong> in system<br>";
           }
           break;
+        case 'OpenEQ':
+        $sqlTS = "SELECT * FROM OpenEQ WHERE `asset_tag` LIKE ? OR `EQ_Type` LIKE ? OR `Model` LIKE ?  OR `located` LIKE ? ORDER BY `campus` ASC";
+          $stmtTS = $conn->prepare($sqlTS);
+
+          $stmtTS->bindParam(1, $searchWildcard);
+          $stmtTS->bindParam(2, $searchWildcard);
+          $stmtTS->bindParam(3, $searchWildcard);
+          $stmtTS->bindParam(4, $searchWildcard);
+          // Execute the search statement
+          $stmtTS->execute();
+
+          // Check if there are any results
+          if ($stmtTS->rowCount() > 0) {
+              // Display table header
+              echo "<table>";
+              
+              // Fetch data and display in table rows
+              while ($row = $stmtTS->fetch(PDO::FETCH_ASSOC)) {
+                  echo "<tr>";
+                  echo "<td>" . $row["asset_tag"] . 
+                    '<button class="action-btn" id="'.$row["asset_tag"] .'"'.
+                    'onclick="showButtonToner(this)" name="operation" value="' . $row["asset_tag"] .
+                    '"><i class="fa-solid fa-minus"></i></button>'.
+                    "</td>";
+                  echo "<td>" . $row["EQ_Type"] . "</td>";
+                  echo "<td>" . $row["Model"] . "</td>";
+                  echo "<td>" . $row["located"] . "</td>";
+                  echo "<td>" . $row["campus"] . "</td>";
+                  echo "</tr>";
+              }
+              echo "</table>";
+          } else {
+              echo "<br>No results found for <strong> Toner ID: " . $searchterm . "</strong> in system<br>";
+          }
+          break;
         case 'LonerLaptopsView':
             $sqlLoS = "SELECT * FROM LonerLaptopsView WHERE `asset_tag` LIKE ? OR `model_number` LIKE ? ORDER BY `asset_tag` ASC";
                 $stmtLoS = $conn->prepare($sqlLoS);

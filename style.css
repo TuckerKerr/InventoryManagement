@@ -1,10 +1,3 @@
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
 /* TopNav Styles */
 .topnav {
     position: fixed;
@@ -287,8 +280,10 @@ body.modal-open{
 }
 
 .table-header {
-  position: sticky;
-  top: 0; /* Stick the header to the top of its container */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
   background-color: #333; /* Optional: ensure visibility */
   color: #ccc;
   padding: 10px;

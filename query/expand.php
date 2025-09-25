@@ -8,7 +8,7 @@ try {
     $data = [];
     $columns = [];
     $sort = !empty($_GET['search']) ? $_GET['search'] : 'sticker_id';
-
+    $EQSort = !empty($_GET['search']) ? $_GET['search'] : 'asset_tag';
 
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -48,7 +48,11 @@ try {
             $query = "SELECT * FROM TonerInSystem ORDER BY $sort ASC";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+            break;
+        case 'OpenEQ':
+            $query = "SELECT * FROM OpenEQ ORDER BY $EQSort ASC";
+            $stmt = $pdo->query($query);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
         case 'PrintersInSystem':
             $query = "SELECT * FROM PrintersInSystem ORDER BY `Num_units` + 0 DESC";
