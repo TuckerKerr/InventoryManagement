@@ -107,6 +107,7 @@
                     <div class="username">
                         <h2>Menu</h2>
                     </div>
+                    <a href="adminPage.php" class="dropdown-item">Admin Page</a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
                 </div>
         </div>
