@@ -52,6 +52,13 @@ $quantity = $_POST['quantityinput'];
         $stmtReduce->bindParam(2, $model);
 
         $stmtReduce->execute();  
+
+        $sqlRetrieval = "INSERT INTO retrieved (sticker_id, Name, Receive_date, Delivery_type, Num_units,
+        EQ_Model, Toner_ID, Toner_model, Shipment_color, transfer_date, location)
+        SELECT sticker_id, Name, Receive_date, Delivery_type, $quantity,EQ_Model, Toner_ID, Toner_model, Shipment_color, $date, location FROM $Delivery_type where EQ_type like $model";
+        $stmtRetrieval = $conn->prepare($sqlRetrieval);
+        $stmtRetrieval->execute();  
+
       
         echo json_encode(['success' => true, 'message'=>"Item(s) taken out"]);
         }
