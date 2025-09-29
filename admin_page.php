@@ -39,6 +39,7 @@
                 staffButton.style.display = 'block'; // Show the button if the user is staff
             } else {
                 staffButton.style.display = 'none'; // Hide the button if the user is not staff
+                window.location.href = 'main.php';
             }
         } else {
             console.log("staffButton element not found");
@@ -246,6 +247,74 @@
             </div>
         </div>
     </div>
+
+
+    <div id="ModelAdd" class="popup">
+        <div class="popup-content-input">
+            <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Add/Remove Model</h2>
+                <form id="ModelForm" style="display: flex; flex-direction: column;">
+
+                <input type="text" id="Model-Tag" class="form-inputs" name="model-tag" placeholder="Model" maxlength="255" required>
+
+                <select id="Type-of-Delivery" name="type-of-delivery" class="form-inputs" required>
+                <option value="" disabled selected>Select the Type of Equipment</option>
+                <option value="Laptops">Laptop</option>
+                <option value="Desktops">Desktops</option>
+                <option value="Monitors">Monitors</option>
+                <option value="Macs">Macs</option>
+                <option value="Printers">Printers</option>
+                <option value="Peripherals">Consumable</option>
+                </select>  
+
+                <select id="Campus" name="campus" class="form-inputs" required>
+                    <option value="" disabled selected>Enter Campus</option>
+                    <option value="Downcity">Downcity</option>
+                    <option value="Harborside">Harborside</option>
+                </select>
+                
+                <button type="submit"name="action" value="add"
+                class="action-btn" style="margin-left:0px; margin-bottom: 10px;">Add</button>
+
+                <button type="submit" name="action" value="remove"
+                class="action-btn" style="margin-left:0px; margin-top: 10px;">Remove</button>
+                </form>
+        </div>
+    </div>
+
+    <div id="ModelAdd" class="popup">
+        <div class="popup-content-input">
+            <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Add/Remove Model</h2>
+                <form id="ModelForm" style="display: flex; flex-direction: column;">
+
+                <input type="text" id="Model-Tag" class="form-inputs" name="model-tag" placeholder="Model" maxlength="255" required>
+
+                <select id="Type-of-Delivery" name="type-of-delivery" class="form-inputs" required>
+                <option value="" disabled selected>Select the Type of Equipment</option>
+                <option value="Laptops">Laptop</option>
+                <option value="Desktops">Desktops</option>
+                <option value="Monitors">Monitors</option>
+                <option value="Macs">Macs</option>
+                <option value="Printers">Printers</option>
+                <option value="Peripherals">Consumable</option>
+                </select>  
+
+                <select id="Campus" name="campus" class="form-inputs" required>
+                    <option value="" disabled selected>Enter Campus</option>
+                    <option value="Downcity">Downcity</option>
+                    <option value="Harborside">Harborside</option>
+                </select>
+                
+                <button type="submit"name="action" value="add"
+                class="action-btn" style="margin-left:0px; margin-bottom: 10px;">Add</button>
+
+                <button type="submit" name="action" value="remove"
+                class="action-btn" style="margin-left:0px; margin-top: 10px;">Remove</button>
+                </form>
+        </div>
+     </div>
+
 </div>
 
 <div class="overlay" id="overlay"></div>
@@ -477,6 +546,44 @@
             })
                 .catch(error => console.error('Error fetching data:', error));
             }
+
+        const modelAR = document.getElementById('ModelAdd');
+        const modelForm = document.getElementById('ModelForm');
+
+        function showModelAdd(){
+            modelAR.style.display = "flex";
+            document.body.classList.add('modal-open');
+        }
+
+        // Close the popup
+        function closeModelAdd(){
+            modelAR.style.display = "none";
+            document.body.classList.remove('modal-open');
+            modelForm.reset();
+        }
+
+        modelForm.addEventListener('submit',function(event){
+        event.preventDefault();
+
+        const formData = new FormData(modelForm);
+
+        const actionValue = event.submitter.value;
+        formData.set('action', actionValue);
+
+        fetch('query/ModelAR.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    closeModelAdd();
+                    TableLoader();
+                    modelForm.reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+    });
 
         </script>
     </body>
