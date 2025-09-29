@@ -48,12 +48,6 @@
     }
     });
 
-    document.addEventListener('DOMContentLoaded', function(){
-        TableLoader();
-        TonerTableLoader();
-        EQTableLoader();
-    });
-
     let idleTime = 0;
     let idleLimit = 2 * 60 * 1000;
     let sessionTimeout; 
@@ -122,6 +116,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper">
+                    <canvas id="generalBar" style="height:800px;"></canvas>
               </div>
             </div>
         </div>
@@ -134,6 +129,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper">
+                    <canvas id="monitorsPie"></canvas>
             </div>
         </div>
     </div>
@@ -144,7 +140,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper">
-
+                    <canvas id="laptopsPie"></canvas>
             </div>
         </div>
         </div>
@@ -157,7 +153,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper">
-               
+                    <canvas id="desktopsPie"></canvas>
             </div>
         </div>
         </div>
@@ -168,7 +164,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper">
-               
+                    <canvas id="printersPie"></canvas>
             </div>
         </div>
         </div>
@@ -185,38 +181,7 @@
             </div>
             <div class="box-content">
                 <div class="tablewrapper-toner">
-                <table id="tonerTable" border = "1">
-                <thead id="tonerHead">
-                    <tr>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="sticker_id" style="display: none;">Sticker ID</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="Toner_ID" style="display: none;">Toner ID</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="Printer_model" style="display: none;">Printer Model</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="Color" style="display: none;">Color</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="Located" style="display: none;">Location</input>
-                            </label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-                </table>
+        
             </div>
         </div>
     </div>
@@ -230,37 +195,7 @@
             <div class="box-content">
                 <div class="tablewrapper-toner">
                 <table id="eqTable" border = "1">
-                <thead id="eqHead">
-                    <tr>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="asset_tag" style="display: none;">Asset Tag</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="EQ_Type" style="display: none;">Hardware Type</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="Model" style="display: none;">Model Type</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="located" style="display: none;">Location</input>
-                            </label>
-                        </th>
-                        <th id='tonerTH' style="position: sticky;">
-                            <label class="sortButtons">
-                                <input type="radio" name="search" value="campus" style="display: none;">Campus</input>
-                            </label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-                </table>
+               
             </div>
         </div>
     </div>
@@ -324,6 +259,129 @@
 
     //End of Dropdown Code
 
+
+    //code for bar chart data
+
+    fetch('query/chartData.php')
+        .then(response => response.json())
+        .then(data => {
+
+            const allLabels = data.labels;
+            const allValues = data.values;
+            const allTypes = data.type;
+
+            const monitorsLabels = [];
+            const monitorsValues = [];
+
+            const laptopsLabels = [];
+            const laptopsValues = [];
+
+            const desktopsLabels = [];
+            const desktopsValues = [];
+
+            const printersLabels = [];
+            const printersValues = [];
+
+            const backgroundColors = ['#333', '#ffffff', '#1a1a1a', 
+            '#4d4d4d', '#e6e6e6', '#555555', 
+            '#919191', '#8a8a8a', '#707070'];
+
+            const bar = document.getElementById('generalBar').getContext('2d');
+            new Chart(bar, {
+                type: 'bar',
+                data: {
+                    labels: allLabels,
+                    datasets: [{
+                        label: 'Quantity',
+                        backgroundColor: '#333',
+                        hoverBackgroundColor: 'black',
+                        data: allValues,
+                    }]
+                },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false
+            }
+            })
+            
+
+            allLabels.forEach((label1, index) => {
+                if (allTypes[index] === 'Monitors') {
+                    monitorsLabels.push(allLabels[index]);
+                    monitorsValues.push(allValues[index]);
+                }
+            });
+
+            new Chart(document.getElementById('monitorsPie'),{
+                type: 'pie',
+                data: {
+                    labels: monitorsLabels,
+                    datasets: [{
+                        label1: 'Monitors',
+                        data: monitorsValues,
+                        backgroundColor: backgroundColors
+                    }]
+                }
+            })
+
+            allLabels.forEach((label1, index) => {
+                if (allTypes[index] === 'Laptops') {
+                    laptopsLabels.push(allLabels[index]);
+                    laptopsValues.push(allValues[index]);
+                }
+            });
+
+            new Chart(document.getElementById('laptopsPie'),{
+                type: 'pie',
+                data: {
+                    labels: laptopsLabels,
+                    datasets: [{
+                        label1: 'Laptops',
+                        data: laptopsValues,
+                        backgroundColor: backgroundColors
+                    }]
+                }
+            })
+
+            allLabels.forEach((label1, index) => {
+                if (allTypes[index] === 'Desktops') {
+                    desktopsLabels.push(allLabels[index]);
+                    desktopsValues.push(allValues[index]);
+                }
+            });
+
+            new Chart(document.getElementById('desktopsPie'),{
+                type: 'pie',
+                data: {
+                    labels: desktopsLabels,
+                    datasets: [{
+                        label1: 'Desktops',
+                        data: desktopsValues,
+                        backgroundColor: backgroundColors
+                    }]
+                }
+            })
+
+            allLabels.forEach((label1, index) => {
+                if (allTypes[index] === 'Printers') {
+                    printersLabels.push(allLabels[index]);
+                    printersValues.push(allValues[index]);
+                }
+            });
+
+            new Chart(document.getElementById('printersPie'),{
+                type: 'pie',
+                data: {
+                    labels: printersLabels,
+                    datasets: [{
+                        label1: 'Printers',
+                        data: printersValues,
+                        backgroundColor: backgroundColors
+                    }]
+                }
+            })
+        })
         </script>
     </body>
 </html>
