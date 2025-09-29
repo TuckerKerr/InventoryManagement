@@ -368,6 +368,7 @@ body.modal-open{
     gap: 20px;
     margin-right: 25px;
     margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .tonerBottom-left,

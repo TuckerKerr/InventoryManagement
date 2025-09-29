@@ -105,7 +105,7 @@
                     <div class="username">
                         <h2>Menu</h2>
                     </div>
-                    <a href="admin_page.php" class="dropdown-item">Admin Page</a>
+                    <a href="admin_page.php" class="dropdown-item">Admin Page<i class="fa-solid fa-bars"></i></a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
                 </div>
         </div>
@@ -363,9 +363,7 @@
                         <option value="Laptops">Laptop</option>
                         <option value="Desktops">Desktops</option>
                         <option value="Monitors">Monitors</option>
-                        <option value="Macs">Macs</option>
                         <option value="Printers">Printers</option>
-                        <option value="Peripherals">Consumable</option>
                     </select>  
 
                     <select id="EQ_Model" name="eq_model" class="form-inputs" required>

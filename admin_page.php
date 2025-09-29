@@ -48,6 +48,12 @@
     }
     });
 
+    document.addEventListener('DOMContentLoaded', function(){
+        RetrievedTableLoader();
+        OpenTableLoader();
+    });
+
+
     let idleTime = 0;
     let idleLimit = 2 * 60 * 1000;
     let sessionTimeout; 
@@ -100,7 +106,7 @@
                     <div class="username">
                         <h2>Menu</h2>
                     </div>
-                    <a href="adminPage.php" class="dropdown-item">Admin Page</a>
+                    <a href="main.php" class="dropdown-item">Main Page<i class="fa-solid fa-bars"></i></a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
                 </div>
         </div>
@@ -175,27 +181,68 @@
     <div class="tonerBottom-left">
         <div class="table-header">
                 <h2>Last Used</h2>
-                <button style="margin-left: 0;"class="action-btn" onclick="showAddToner()">Input Toner</button>
-                <button onclick="printSticker(event)" class="action-btn" id="print">Print Sticker</button>
-                <input type="text" id="searchInput" placeholder="Search...">
             </div>
             <div class="box-content">
-                <div class="tablewrapper-toner">
-        
+            <div class="tablewrapper-toner">
+                <table id="lastTable" border = "1">
+                    <thead id="eqHead">
+                        <tr>
+                            <th>
+                                <label class="sortButtons">
+                                   Quantity
+                                </label>
+                            </th>
+                            <th>
+                                <label class="sortButtons">
+                                   Hardware Type
+                                </label>
+                            </th>
+                            <th>
+                                <label class="sortButtons">
+                                   Model Type
+                                </label>
+                            </th>  
+                            <th>
+                                <label class="sortButtons">
+                                   Transfer Date
+                                </label>
+                            </th>    
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <div class="tonerBottom-right">
         <div class="table-header">
-                <h2>Open Status</h2>
-                <button style="margin-left: 0;"class="action-btn" onclick="showAddEquipment()">Input Equipment</button>
-                <input type="text" id="EQsearchInput" placeholder="Search...">
+                <h2>Open Equipment Counts</h2>
             </div>
             <div class="box-content">
                 <div class="tablewrapper-toner">
-                <table id="eqTable" border = "1">
-               
+                <table id="openTable" border = "1">
+                    <thead id="eqHead">
+                        <tr>
+                            <th>
+                                <label class="sortButtons">
+                                   Quantity
+                                </label>
+                            </th>
+                            <th>
+                                <label class="sortButtons">
+                                  Model Type
+                                </label>
+                            </th>
+                            <th>
+                                <label class="sortButtons">
+                                    Hardware Type
+                                </label>
+                            </th>   
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -382,6 +429,55 @@
                 }
             })
         })
+
+
+    function RetrievedTableLoader(){
+        fetch(`query/expand.php?view=lastRetrieved`)
+            .then(response=> response.json())
+            .then(result=> {
+                if(result.success && Array.isArray(result.data)){
+                const tbody = document.querySelector(`#lastTable tbody`);
+                tbody.innerHTML=''
+                result.data.forEach(row=> {
+                    const tr=document.createElement('tr');
+                    tr.innerHTML = Object.values(row).map(val => {
+                        return `<td class="tonerRows">${val}</td>`;
+                    }).join('');
+                    tbody.appendChild(tr);
+                    });
+                }
+            else{
+                    console.error('Unexpected Response Format: ', result);
+                }
+            })
+                .catch(error => console.error('Error fetching data:', error));
+            }
+
+    function OpenTableLoader(){
+        fetch(`query/openCount.php`)
+            .then(response=> response.json())
+            .then(result=> {
+                if(result.success && Array.isArray(result.data)){
+                const tbody = document.querySelector(`#openTable tbody`);
+                tbody.innerHTML = '';
+
+                result.data.forEach(row=> {
+                    if(row.Quantity > 0){
+                        const tr=document.createElement('tr');
+                        tr.innerHTML = Object.values(row).map(val => {
+                            return `<td class="tonerRows">${val}</td>`;
+                        }).join('');
+                        tbody.appendChild(tr);
+                    }
+                });
+            }
+            else{
+                    console.error('Unexpected Response Format: ', result);
+                }
+            })
+                .catch(error => console.error('Error fetching data:', error));
+            }
+
         </script>
     </body>
 </html>

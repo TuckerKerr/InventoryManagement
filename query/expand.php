@@ -69,8 +69,8 @@ try {
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
-        case 'OrdersView':
-            $query = "SELECT * FROM OrdersView ORDER BY `request_id` ASC";
+        case 'lastRetrieved':
+            $query = "SELECT * FROM lastRetrieved ORDER BY `transfer_date` ASC LIMIT 10";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;

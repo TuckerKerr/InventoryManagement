@@ -19,7 +19,7 @@ $action = $_POST['action'];
 $model = $_POST['model'];
 $date = date('Y-m-d');
 $Delivery_type = $_POST['delivery'];
-$quantity = $_POST['quantityinput'];
+$quantity = intval($_POST['quantityinput']);
 
 
       if ($action == 'add') {
@@ -55,8 +55,17 @@ $quantity = $_POST['quantityinput'];
 
         $sqlRetrieval = "INSERT INTO retrieved (sticker_id, Name, Receive_date, Delivery_type, Num_units,
         EQ_Model, Toner_ID, Toner_model, Shipment_color, transfer_date, location)
-        SELECT sticker_id, Name, Receive_date, Delivery_type, $quantity,EQ_Model, Toner_ID, Toner_model, Shipment_color, $date, location FROM $Delivery_type where EQ_type like $model";
+        SELECT sticker_id, Name, Receive_date, Delivery_type, ? , EQ_type, ?, ?, ?, ?, campus FROM $Delivery_type where EQ_type like ?";
         $stmtRetrieval = $conn->prepare($sqlRetrieval);
+
+        $stmtRetrieval->bindParam(1, $quantity); 
+        $stmtRetrieval->bindParam(2, $Toner_ID); 
+        $stmtRetrieval->bindParam(3, $Toner_model);
+        $stmtRetrieval->bindParam(4, $Shipment_color); 
+        $stmtRetrieval->bindParam(5, $date);
+        $stmtRetrieval->bindParam(6, $model); 
+
+  
         $stmtRetrieval->execute();  
 
       
