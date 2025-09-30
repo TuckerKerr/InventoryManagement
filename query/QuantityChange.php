@@ -19,15 +19,17 @@ $action = $_POST['action'];
 $model = $_POST['model'];
 $date = date('Y-m-d');
 $Delivery_type = $_POST['delivery'];
+$campus = $_POST['campus'];
 $quantity = intval($_POST['quantityinput']);
 
 
       if ($action == 'add') {
-        $sqlAdd = "UPDATE $Delivery_type SET Num_units = Num_units + ? WHERE EQ_type LIKE ?";
+        $sqlAdd = "UPDATE $Delivery_type SET Num_units = Num_units + ? WHERE EQ_type LIKE ? AND Campus LIKE ?";
         $stmtAdd = $conn->prepare($sqlAdd);
 
         $stmtAdd->bindParam(1, $quantity); 
         $stmtAdd->bindParam(2, $model);
+        $stmtAdd->bindParam(3, $campus);
 
         $stmtAdd->execute();  
 
@@ -45,11 +47,13 @@ $quantity = intval($_POST['quantityinput']);
           echo json_encode(['success' => false, 'message'=>"Cannot Pull out that many"]);
         }
         else{
-        $sqlReduce = "UPDATE $Delivery_type SET Num_units = Num_units - ? WHERE EQ_type LIKE ?";
+        $sqlReduce = "UPDATE $Delivery_type SET Num_units = Num_units - ? WHERE EQ_type LIKE ? AND Campus LIKE ?";
         $stmtReduce = $conn->prepare($sqlReduce);
 
         $stmtReduce->bindParam(1, $quantity); 
         $stmtReduce->bindParam(2, $model);
+        $stmtReduce->bindParam(3, $campus);
+
 
         $stmtReduce->execute();  
 

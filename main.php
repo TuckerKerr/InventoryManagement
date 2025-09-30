@@ -246,6 +246,7 @@
                 <form id="AddQuantityForm">
                     <input type="hidden" name="model" id="modelInput">
                     <input type="hidden" name="delivery" id="deliveryInput">
+                    <input type="hidden" name="campus" id="campusInput">
                     <input type="number" id="QuantityInput" name="quantityinput" min="0" max="999" step="1" value="0">
                     <button class="action-btn" name="action" value="add">Confirm</button>
                 </form>
@@ -259,6 +260,7 @@
                 <form id="RemoveQuantityForm">
                     <input type="hidden" name="model" id="modelRemove">
                     <input type="hidden" name="delivery" id="deliveryRemove">
+                    <input type="hidden" name="campus" id="campusRemove">
                     <input type="number" id="QuantityInput" name="quantityinput" min="0" max="999" step="1" value="0">
                     <button class="action-btn" name="action" value="remove">Confirm</button>
                 </form>
@@ -500,7 +502,8 @@
     </div>
 
     <div class="overlay" id="overlay"></div>
-    
+    <div id="notification" class="notification"></div>
+
 
 <div class="container mt-4">
 <div class = "button-container" style="display: flex; gap: 10px;">
@@ -562,6 +565,8 @@
     const removequantityForm = document.getElementById("RemoveQuantityForm");
 
     const sticker_id = document.getElementById("sticker_id");
+    const notifications = document.getElementById('notification');
+
 
     let search = '';
 
@@ -630,11 +635,16 @@ views.tableviews.forEach((viewName, index) => {
             tr.innerHTML = Object.values(row).map((val, index, arr) => {
                 if(index === 0){
                     const idValue = arr[1];
+                    console.log(idValue);
+                    const campus = arr[2];
+                    console.log(campus);
+
+                    
                     return `<td style="text-align:right;">
                     <span style="display:flex; justify-content:space-between;">${val}
                         <span>
-                            <button data-role="${delivery}" class="action-btn" id="${idValue}" onclick="showPopupDelete(this)" name="operation" value="remove_${idValue}"><i class="fa-solid fa-minus"></i></button>
-                            <button data-role="${delivery}"  class="action-btn" id="${idValue}" onclick="showPopupAdd(this)"  name="operation" value="add_${idValue}"><i class="fa-solid fa-plus"></i></button>
+                            <button data-role="${delivery}" data-campus="${campus}" class="action-btn" id="${idValue}" onclick="showPopupDelete(this)" name="operation" value="remove_${idValue}"><i class="fa-solid fa-minus"></i></button>
+                            <button data-role="${delivery}" data-campus="${campus}" class="action-btn" id="${idValue}" onclick="showPopupAdd(this)"  name="operation" value="add_${idValue}"><i class="fa-solid fa-plus"></i></button>
                         </span>
                     </span>
                 </td>`;
@@ -838,11 +848,18 @@ function TonerTableLoader(){
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
-                    closeModelAdd();
-                    TableLoader();
-                    modelForm.reset();
+                    if(data.success === true){
+                        closeModelAdd();
+                        TableLoader();
+                        modelForm.reset();
+                    }
+                    else{
+                        showNotification('Model Already Exists');
+                        closeModelAdd();
+                        modelForm.reset();
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -975,7 +992,9 @@ function TonerTableLoader(){
     function showPopupAdd(button) {
         const model= button.id;
         const table = button.dataset.role;
+        const campus= button.dataset.campus;
         document.getElementById('modelInput').value = model;
+        document.getElementById('campusInput').value = campus;
         document.getElementById('deliveryInput').value = table;
         popup.style.display = "flex";
         document.body.classList.add('modal-open');
@@ -1001,8 +1020,10 @@ function TonerTableLoader(){
     function showPopupDelete(button) {
         const model= button.id;
         const table = button.dataset.role;
+        const campus= button.dataset.campus;
         document.getElementById('modelRemove').value = model;
         document.getElementById('deliveryRemove').value = table;
+        document.getElementById('campusRemove').value = campus;
         RemovePopup.style.display = "flex";
         document.body.classList.add('modal-open');
 
@@ -1143,7 +1164,15 @@ function TonerTableLoader(){
         }
 
 
+        // Function to show notification
+        function showNotification(message) {
+            notifications.textContent = message;
+            notifications.style.display = 'block';
 
+            setTimeout(() => {
+                notifications.style.display = 'none';
+            }, 3000);
+        }
     
  
 async function printSticker(event) {
