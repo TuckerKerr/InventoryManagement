@@ -457,13 +457,18 @@ function getChart(value){
                 data: {
                     labels: allLabels,
                     datasets: [{
-                        label: 'Quantity',
+                        label: '',
                         backgroundColor: '#333',
                         hoverBackgroundColor: 'black',
                         data: allValues,
                     }]
                 },
             options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false
@@ -739,6 +744,7 @@ function getChart(value){
         deskPie.destroy();
 
         getChart(isChecked);
+        totalCount(isChecked);
     }
 
     document.getElementById('export').addEventListener('click', () => {

@@ -365,7 +365,7 @@ body.modal-open{
 }
 
 .box-left-column,
-.box-middle-left-column,
+.box-middle-column,
 .box-right-column {
     flex: 1;
     min-width: 200px;
@@ -459,7 +459,7 @@ body.modal-open{
 .tablewrapper-toner{
   border: 1px solid #ccc;
   overflow: auto;
-  height: 500px;
+  height: 100%;
 }
 .tablewrapper-chart {
   width: 300px;
