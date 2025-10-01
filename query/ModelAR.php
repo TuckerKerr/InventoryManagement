@@ -27,66 +27,87 @@ $action = $_POST['action'];
 $tablename = $Delivery_type . 'Model';
 
       if ($action == 'add') {
-        $sqlAdd = "INSERT INTO $tablename (model) VALUES (?)";
-        $stmtAdd = $conn->prepare($sqlAdd);
+        $sqlCheck = "SELECT * FROM $tablename WHERE model LIKE ? AND campus LIKE ?";
+        $stmtCheck = $conn->prepare($sqlCheck);
+        $stmtCheck->bindParam(1, $model);
+        $stmtCheck->bindParam(2, $location);
+        $stmtCheck->execute();
+        $result = $stmtCheck->fetchAll(PDO::FETCH_ASSOC);
 
-        // Bind parameters for insert
-        $stmtAdd->bindParam(1, $model);
-      
-        $stmtAdd->execute();
+        if($result){
+            echo json_encode([
+                'success' => false,
+                'message' => 'Model already exists',
+            ]);
+          die();
+        }
+        else{
+          $sqlAdd = "INSERT INTO $tablename (model, campus) VALUES (?, ?)";
+          $stmtAdd = $conn->prepare($sqlAdd);
 
-        $sqlCall = "CALL smallestfreeSticker();";
-        $stmtCall = $conn->prepare($sqlCall);
-        $stmtCall->execute();
+          // Bind parameters for insert
+          $stmtAdd->bindParam(1, $model);
+          $stmtAdd->bindParam(2, $location);
+        
+          $stmtAdd->execute();
 
-        $freeInSystem = $stmtCall->fetch(PDO::FETCH_ASSOC);
-        $stmtCall->closeCursor();
+          $sqlCall = "CALL smallestfreeSticker();";
+          $stmtCall = $conn->prepare($sqlCall);
+          $stmtCall->execute();
 
-
-        $freeStickerValue = $freeInSystem['sticker_id']; 
-
-        $sqlUpdate = "INSERT INTO $Delivery_type (sticker_id, Name, Receive_date, Delivery_type, Num_units, EQ_type, Campus) VALUES (?,?,?,?,?,?,?)";
-
-        $stmtUpdate = $conn->prepare($sqlUpdate);
-        $stmtUpdate->bindParam(1, $freeStickerValue);
-        $stmtUpdate->bindParam(2, $Name);
-        $stmtUpdate->bindParam(3, $date);
-        $stmtUpdate->bindParam(4, $Delivery_type);
-        $stmtUpdate->bindParam(5, $quantity);
-        $stmtUpdate->bindParam(6, $model);
-        $stmtUpdate->bindParam(7, $location);
-
-        $stmtUpdate->execute();
-
-         // Update statement
-        $sqlUpdateDelivery = "UPDATE sticker_table SET isinUse = 1, Located = ? WHERE sticker_id = ?";
-        $stmtUpdateDelivery = $conn->prepare($sqlUpdateDelivery);
-
-        // Bind parameters for update
-        $stmtUpdateDelivery->bindParam(1, $Delivery_type);
-        $stmtUpdateDelivery->bindParam(2, $freeStickerValue);
-
-        // Execute the update statement
-        $stmtUpdateDelivery->execute();
+          $freeInSystem = $stmtCall->fetch(PDO::FETCH_ASSOC);
+          $stmtCall->closeCursor();
 
 
+          $freeStickerValue = $freeInSystem['sticker_id']; 
 
-          echo "You clicked 'Add' button.";
+          $sqlUpdate = "INSERT INTO $Delivery_type (sticker_id, Name, Receive_date, Delivery_type, Num_units, EQ_type, Campus) VALUES (?,?,?,?,?,?,?)";
+
+          $stmtUpdate = $conn->prepare($sqlUpdate);
+          $stmtUpdate->bindParam(1, $freeStickerValue);
+          $stmtUpdate->bindParam(2, $Name);
+          $stmtUpdate->bindParam(3, $date);
+          $stmtUpdate->bindParam(4, $Delivery_type);
+          $stmtUpdate->bindParam(5, $quantity);
+          $stmtUpdate->bindParam(6, $model);
+          $stmtUpdate->bindParam(7, $location);
+
+          $stmtUpdate->execute();
+
+          // Update statement
+          $sqlUpdateDelivery = "UPDATE sticker_table SET isinUse = 1, Located = ? WHERE sticker_id = ?";
+          $stmtUpdateDelivery = $conn->prepare($sqlUpdateDelivery);
+
+          // Bind parameters for update
+          $stmtUpdateDelivery->bindParam(1, $Delivery_type);
+          $stmtUpdateDelivery->bindParam(2, $freeStickerValue);
+
+          // Execute the update statement
+          $stmtUpdateDelivery->execute();
+
+           echo json_encode([
+            'success' => true,
+            ]);   
+
+        }
+
+       
 
       } elseif ($action == 'remove') {
           // Code to handle remove action
-        $sqlRemove = "DELETE FROM $tablename WHERE model LIKE ?";
+        $sqlRemove = "DELETE FROM $tablename WHERE model LIKE ? AND campus LIKE ?";
         $stmtRemove = $conn->prepare($sqlRemove);
 
         // Bind parameters for insert
         $stmtRemove->bindParam(1, $model);
-      
+        $stmtRemove->bindParam(2, $location);
         $stmtRemove->execute();
 
-        $sqlInfo = "SELECT sticker_id FROM $Delivery_type WHERE EQ_type = ?"; 
+        $sqlInfo = "SELECT sticker_id FROM $Delivery_type WHERE EQ_type = ? AND Campus = ?"; 
         $stmtInfo = $conn->prepare($sqlInfo);
 
         $stmtInfo->bindParam(1, $model);
+        $stmtInfo->bindParam(2, $location);
         $stmtInfo->execute();
 
         $freeInSystem = $stmtInfo->fetch(PDO::FETCH_ASSOC);
@@ -94,10 +115,11 @@ $tablename = $Delivery_type . 'Model';
 
         $sticker_id = $freeInSystem['sticker_id']; 
 
-        $sqlUpdate = "DELETE FROM $Delivery_type WHERE EQ_type LIKE ?";
+        $sqlUpdate = "DELETE FROM $Delivery_type WHERE EQ_type LIKE ? AND Campus LIKE ?";
         $stmtUpdate= $conn->prepare($sqlUpdate);
 
         $stmtUpdate->bindParam(1, $model);
+        $stmtUpdate->bindParam(2, $location);
         $stmtUpdate->execute();
 
         // Update statement
@@ -109,6 +131,10 @@ $tablename = $Delivery_type . 'Model';
 
         // Execute the update statement
         $stmtUpdateDelivery->execute();
+
+        echo json_encode([
+            'success' => true,
+        ]);
 
       }
   

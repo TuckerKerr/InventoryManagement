@@ -52,6 +52,8 @@
     document.addEventListener('DOMContentLoaded', function(){
         RetrievedTableLoader();
         OpenTableLoader();
+        getChart('Downcity');
+        totalCount('Downcity');
     });
 
 
@@ -109,6 +111,14 @@
                     </div>
                     <a href="main.php" class="dropdown-item">Main Page<i class="fa-solid fa-bars"></i></a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
+                    <div class="theme-toggle">
+                        <span>DC</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="themeToggle" onchange="checkFunction(this)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>HS</span>
+                    </div>
                 </div>
         </div>
     </div>
@@ -116,27 +126,27 @@
 <div class="main-content">
     <div class="title">Inventory Management</div>
 <div class="box-container">
-    <div class="box-left-column">
+    <div class="admin-left-column">
         <div class="box top-box">
             <div class="box-header">
                 <h2>Bar chart</h2>
             </div>
-            <div class="box-content">
-                <div class="tablewrapper">
+            <div class="box-content" style="height:90%;">
+                <div class="tablewrapper-bar">
                     <canvas id="generalBar" style="height:800px;"></canvas>
               </div>
             </div>
         </div>
     </div>
 
-    <div class="box-middle-column">
+    <div class="admin-middle-left-column">
         <div class="box top-box">
             <div class="box-header">
                 <h2>Monitors</h2>
             </div>
             <div class="box-content">
-                <div class="tablewrapper">
-                    <canvas id="monitorsPie"></canvas>
+                <div class="tablewrapper-chart">
+                    <canvas id="monitorsPie" width="450" height="300"></canvas>
             </div>
         </div>
     </div>
@@ -146,21 +156,21 @@
                 <h2>Laptops</h2>
             </div>
             <div class="box-content">
-                <div class="tablewrapper">
-                    <canvas id="laptopsPie"></canvas>
+                <div class="tablewrapper-chart">
+                    <canvas id="laptopsPie" width="450" height="300"></canvas>
             </div>
         </div>
         </div>
     </div>
 
-    <div class="box-right-column">
+    <div class="admin-middle-right-column">
         <div class="box top-box">
             <div class="box-header">
                 <h2>Desktops</h2>
             </div>
             <div class="box-content">
-                <div class="tablewrapper">
-                    <canvas id="desktopsPie"></canvas>
+                <div class="tablewrapper-chart">
+                    <canvas id="desktopsPie" width="450" height="300"></canvas>
             </div>
         </div>
         </div>
@@ -170,12 +180,45 @@
                 <h2>Printers</h2>
             </div>
             <div class="box-content">
-                <div class="tablewrapper">
-                    <canvas id="printersPie"></canvas>
+                <div class="tablewrapper-chart">
+                    <canvas id="printersPie" width="450" height="300"></canvas>
             </div>
         </div>
         </div>
     </div>
+
+    <div class="admin-right-column">
+        <div class="box top-box">
+            <div class="box-header">
+                <h2>Total Quantity</h2>
+                <button id="export" class="action-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+                </svg>Export to CSV</button>
+            </div>
+            <div class="box-content">
+                <div class="tablewrapper-toner" style="height: 700px;">
+                    <table id="allTable" border = "1">
+                        <thead id="eqHead">
+                            <tr>
+                                <th>
+                                    <label class="sortButtons">
+                                    Hardware Type
+                                    </label>
+                                </th>
+                                <th>
+                                    <label class="sortButtons">
+                                    Quantity
+                                    </label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="bottom-box-container">
@@ -339,7 +382,6 @@
   </div>
     <script>
     //Dropdown Code for profile icon
-
     const profileIcon = document.getElementById("profileIcon");
     const dropdown = document.getElementById("dropdown");
 
@@ -358,7 +400,8 @@
 
 
    const menuIcon = document.getElementById("menuIcon");
-  const menudropdown = document.getElementById("menudropdown");
+    const menudropdown = document.getElementById("menudropdown");
+    const exportButton = document.getElementById('export');
 
   menuIcon.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevents the document click from immediately hiding the dropdown
@@ -375,13 +418,19 @@
 
     //End of Dropdown Code
 
+    let barChart;
+    let lapPie;
+    let monPie;
+    let deskPie;
+    let priPie;
 
     //code for bar chart data
-
-    fetch('query/chartData.php')
+function getChart(value){
+    const campus = value;
+    console.log(campus);
+    fetch(`query/chartData.php?campus=${campus}`)
         .then(response => response.json())
         .then(data => {
-
             const allLabels = data.labels;
             const allValues = data.values;
             const allTypes = data.type;
@@ -403,7 +452,7 @@
             '#919191', '#8a8a8a', '#707070'];
 
             const bar = document.getElementById('generalBar').getContext('2d');
-            new Chart(bar, {
+            barChart = new Chart(bar, {
                 type: 'bar',
                 data: {
                     labels: allLabels,
@@ -429,7 +478,7 @@
                 }
             });
 
-            new Chart(document.getElementById('monitorsPie'),{
+            monPie = new Chart(document.getElementById('monitorsPie'),{
                 type: 'pie',
                 data: {
                     labels: monitorsLabels,
@@ -438,7 +487,25 @@
                         data: monitorsValues,
                         backgroundColor: backgroundColors
                     }]
+                },
+                options:{
+                    plugins:{ 
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const dataset= context.dataset;
+                                    const total = dataset.data.reduce((sum, val) => sum + val, 0);
+                                    const value = dataset.data[context.dataIndex];
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${percentage}%`;
+                                }
+                            }
+                        },
+                    legend: {
+                        position: 'right'
+                    }
                 }
+            }
             })
 
             allLabels.forEach((label1, index) => {
@@ -448,7 +515,7 @@
                 }
             });
 
-            new Chart(document.getElementById('laptopsPie'),{
+            lapPie = new Chart(document.getElementById('laptopsPie'),{
                 type: 'pie',
                 data: {
                     labels: laptopsLabels,
@@ -457,7 +524,25 @@
                         data: laptopsValues,
                         backgroundColor: backgroundColors
                     }]
+                },
+                 options:{
+                    plugins:{ 
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const dataset= context.dataset;
+                                    const total = dataset.data.reduce((sum, val) => sum + val, 0);
+                                    const value = dataset.data[context.dataIndex];
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${percentage}%`;
+                                }
+                            }
+                         },
+                    legend: {
+                        position: 'right'
+                    }
                 }
+            }
             })
 
             allLabels.forEach((label1, index) => {
@@ -467,7 +552,7 @@
                 }
             });
 
-            new Chart(document.getElementById('desktopsPie'),{
+            deskPie = new Chart(document.getElementById('desktopsPie'),{
                 type: 'pie',
                 data: {
                     labels: desktopsLabels,
@@ -476,7 +561,25 @@
                         data: desktopsValues,
                         backgroundColor: backgroundColors
                     }]
+                },
+                 options:{
+                    plugins:{ 
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const dataset= context.dataset;
+                                    const total = dataset.data.reduce((sum, val) => sum + val, 0);
+                                    const value = dataset.data[context.dataIndex];
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${percentage}%`;
+                                }
+                            }
+                        },
+                    legend: {
+                        position: 'right'
+                    }
                 }
+            }
             })
 
             allLabels.forEach((label1, index) => {
@@ -486,7 +589,7 @@
                 }
             });
 
-            new Chart(document.getElementById('printersPie'),{
+            priPie = new Chart(document.getElementById('printersPie'),{
                 type: 'pie',
                 data: {
                     labels: printersLabels,
@@ -495,10 +598,51 @@
                         data: printersValues,
                         backgroundColor: backgroundColors
                     }]
+                },
+                 options:{
+                    plugins:{ 
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const dataset= context.dataset;
+                                    const total = dataset.data.reduce((sum, val) => sum + val, 0);
+                                    const value = dataset.data[context.dataIndex];
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${percentage}%`;
+                                }
+                            }
+                         },
+                    legend: {
+                        position: 'right'
+                    }
                 }
+            }
             })
         })
 
+}
+    function totalCount(event){
+        const campus = event;
+        fetch(`query/chartData.php?campus=${campus}`)
+            .then(response=> response.json())
+            .then(result=> {
+                const allLabels = result.labels;
+                const allValues = result.values;
+                const tbody = document.querySelector(`#allTable tbody`);
+                tbody.innerHTML=''
+                allLabels.forEach((label, index)=> {
+                    const value = allValues[index];
+
+                    const tr=document.createElement('tr');
+                    tr.innerHTML = 
+                        `<td class="tonerRows">${label}</td>
+                        <td class="tonerRows">${value}</td>`;
+                    
+                    tbody.appendChild(tr);
+                    });
+            })
+                .catch(error => console.error('Error fetching data:', error));
+            }
 
     function RetrievedTableLoader(){
         fetch(`query/expand.php?view=lastRetrieved`)
@@ -584,6 +728,43 @@
                     console.error('Error:', error);
                 });
     });
+
+    function checkFunction(checkbox){
+        const isChecked = checkbox.checked ? 'Harborside' : 'Downcity';
+        console.log(isChecked);
+        barChart.destroy();
+        priPie.destroy();
+        lapPie.destroy();
+        monPie.destroy();
+        deskPie.destroy();
+
+        getChart(isChecked);
+    }
+
+    document.getElementById('export').addEventListener('click', () => {
+        const table = document.getElementById('allTable');
+        let csv = [];
+
+        // Loop through rows
+        for (let row of table.rows) {
+            let rowData = [];
+            for (let cell of row.cells) {
+            // Escape double quotes and commas
+            let text = cell.textContent.replace(/"/g, '""');
+            rowData.push(`"${text}"`);
+            }
+            csv.push(rowData.join(','));
+        }
+
+        // Create and trigger CSV download
+        const csvBlob = new Blob([csv.join('\n')], { type: 'text/csv' });
+        const url = URL.createObjectURL(csvBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Inventory.csv';
+        link.click();
+        URL.revokeObjectURL(url); // clean up
+        });
 
         </script>
     </body>

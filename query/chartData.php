@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 try {
 // Check if the 'type-of-delivery' parameter is set
     $Delivery_types = ['Laptops','Monitors','Desktops','Printers','Peripherals'];
-    
+    $campus = $_GET['campus'];
 
     // Database connection
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -19,10 +19,11 @@ try {
     foreach($Delivery_types as $Delivery_type){
     $DataType = $Delivery_type . "InSystem";
     // Prepare the query to get model data based on the selected delivery type
-    $queryDesk = "CALL GetModelInfo(:delivery_type)";  // Stored procedure to get model info
+    $queryDesk = "CALL GetDowncityModelInfo(:delivery_type, :campus)";  // Stored procedure to get model info
     $stmtDesk = $pdo->prepare($queryDesk);
     // Bind the parameter for the query
     $stmtDesk->bindParam(':delivery_type', $Delivery_type, PDO::PARAM_STR);
+    $stmtDesk->bindParam(':campus', $campus, PDO::PARAM_STR);
     
     // Execute the query and fetch the data
     $stmtDesk->execute();
@@ -38,9 +39,10 @@ try {
 
 
         // Now, query the MonitorsInSystem table to get the count for this model
-        $searchSQL = "SELECT Num_units AS count FROM $DataType WHERE Model LIKE :model";
+        $searchSQL = "SELECT Num_units AS count FROM $DataType WHERE Model LIKE :model AND campus LIKE :campus";
         $stmtD = $pdo->prepare($searchSQL);
         $stmtD->bindParam(':model', $model, PDO::PARAM_STR);  // Bind the model value
+        $stmtD->bindParam(':campus', $campus, PDO::PARAM_STR);
         $stmtD->execute();
         
         while($data1 = $stmtD->fetch(PDO::FETCH_ASSOC)){
