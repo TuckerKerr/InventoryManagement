@@ -107,6 +107,14 @@
                     </div>
                     <a href="admin_page.php" class="dropdown-item">Admin Page<i class="fa-solid fa-bars"></i></a>
                     <a onclick="showModelAdd()" class="dropdown-item">Add Model <i class="fa-solid fa-gear"></i></a>
+                    <div class="theme-toggle">
+                        <span>Gray</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="themeToggle" onchange="loadTheme(this)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>Blue</span>
+                    </div>
                 </div>
         </div>
     </div>
@@ -566,6 +574,7 @@
 
     const sticker_id = document.getElementById("sticker_id");
     const notifications = document.getElementById('notification');
+    const themeToggle = document.getElementById('themeToggle');
 
 
     let search = '';
@@ -1236,6 +1245,18 @@ async function printSticker(event) {
     }
 }
 
+    function loadTheme(checkbox) {
+        const currentTheme = checkbox.checked ? 'light' : 'dark';
+        if (currentTheme === 'light') {
+            document.body.classList.add('dark-theme');
+            themeToggle.checked = true;
+            console.log(currentTheme);
+        } else {
+            document.body.classList.remove('dark-theme');
+            themeToggle.checked = false;
+            console.log(currentTheme);
+        }
+    }
     </script>
  
 </body>

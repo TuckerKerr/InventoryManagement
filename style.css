@@ -14,6 +14,40 @@
     transition: left 0.3s ease, width 0.3s ease, background-color 0.3s ease;
     z-index: 900;
 }
+/**/
+:root{
+  --bg-color: white;
+  --box-bg: #ccc;
+  --box-header-bg: #333;
+  --th-bg: #EEF0F2;
+  --td-bg: #302929;
+  --act-btn-bg: #000;
+  --act-btn-hv-bg: #ccc;
+  --popup-btn-bg: #ccc;
+  --title-cl: #333;
+  --title-cl-shadow: #ccc;
+  --table-title-cl: #ccc;
+  --table-title-cl-shadow: #000;
+  --th-text: #6b7280;
+  --td-text: #fff;
+}
+/* LIGHT mode variables */
+.dark-theme {
+  --bg-color: #f5e9d8;
+  --box-bg: #FFFEF7;   
+  --box-header-bg: #2c3e50;
+  --th-bg: #7F8C8D;
+  --td-bg: #34495e;
+  --act-btn-bg: #182a3d;
+  --act-btn-hv-bg: #7F8C8D;
+  --popup-btn-bg: #ccc;
+  --title-cl: #333;
+  --title-cl-shadow: #838383;
+  --table-title-cl: #ccc;
+  --table-title-cl-shadow: #000;
+  --th-text: #000;
+  --td-text: #fff;
+}
 
 .notification {
   position: fixed;
@@ -91,7 +125,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: var(--popup-btn-bg);
     color: black;
     display: flex;
     align-items: center;
@@ -182,10 +216,10 @@ table {
 }
 
 th {
-  background-color: #EEF0F2;
+  background-color: var(--th-bg);
   text-align: left;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--th-text);
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
@@ -203,21 +237,17 @@ th {
 td {
   width: 10%;
   padding: 0.75rem 1rem;
-  background-color: #302929;
-  color: #EEF0F2;
+  background-color: var(--td-bg);
+  color: var(--td-text);
   border-top: 1px solid #e5e7eb;
 }
 
 .tonerRows{
   width: 10%;
   padding: 0.75rem 1rem;
-  background-color: #302929;
-  color: #EEF0F2;
+  background-color: var(--td-bg);
+  color: var(--td-text);
   border-top: 1px solid #e5e7eb;
-}
-
-tr:hover td {
-  background-color: #302929;
 }
 
 footer {
@@ -296,7 +326,7 @@ body.modal-open{
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  background-color: #333; /* Optional: ensure visibility */
+  background-color: var(--box-header-bg); /* Optional: ensure visibility */
   color: #ccc;
   padding: 10px;
   border-radius: 10px;
@@ -305,7 +335,7 @@ body.modal-open{
 }
 
 .form-inputs{
-  --bg: black;
+  --bg: var(--table-title-cl-shadow);
   box-shadow: -0.25rem 0.25rem var(--bg);
   border-radius: 5px;
   border: 2px solid var(--bg);
@@ -317,9 +347,9 @@ body.modal-open{
 /* From Uiverse.io by satyamchaudharydev */ 
 /* inspired form gumroad website */
 .action-btn {
-  --bg: #000;
-  --hover-bg: #ccc;
-  --hover-text: #000;
+  --bg: var(--act-btn-bg);
+  --hover-bg: var(--act-btn-hv-bg);
+  --hover-text: var(--act-btn-bg);
   color: #fff;
   cursor: pointer;
   border: 1px solid var(--bg);
@@ -347,7 +377,7 @@ body.modal-open{
   font-weight: 500;
   font-weight: bold; 
   font-size: 48px;
-  text-shadow: -.15rem .15rem #ccc;
+  text-shadow: -.15rem .15rem var(--title-cl-shadow);
   display: flex;
   justify-content: center;      
   align-items: center;
@@ -404,7 +434,7 @@ body.modal-open{
   width: 50%;
   border-radius: 10px;
   box-shadow: 0 2px 5px #333;
-  background-color: #ccc;
+  background-color: var(--box-bg);
   padding: 10px;
 }
 
@@ -414,12 +444,12 @@ body.modal-open{
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 2px 5px #333;
-  background-color: #ccc;
+  background-color: var(--box-bg);
   padding: 10px;
 }
 
 .box {
-    background-color: #ccc;
+    background-color: var(--box-bg);
     border-radius: 8px;
     box-shadow: 0 2px 5px var(--shadow-color);
     padding: 20px;
@@ -434,16 +464,16 @@ body.modal-open{
     margin-bottom: 15px;
     padding: 5px;
     border-radius: 10px;
-    box-shadow: -.25rem .25rem black;
-    background-color: #333;
+    box-shadow: -.25rem .25rem var(--table-title-cl-shadow);
+    background-color: var(--box-header-bg);
     border-bottom: 1px solid var(--border-color);
 }
 
 .box-header h2 {
     font-size: 25px;
     font-weight: bold;
-    color: #ccc;
-    text-shadow: -.15rem .15rem black;
+    color: var(--table-title-cl);
+    text-shadow: -.15rem .15rem var(--table-title-cl-shadow);
     margin: 0;
     position: sticky;
 }
@@ -459,7 +489,12 @@ body.modal-open{
 .tablewrapper-toner{
   border: 1px solid #ccc;
   overflow: auto;
-  height: 100%;
+  height: 500px;
+}
+.tablewrapper-admin{
+  border: 1px solid #ccc;
+  overflow: auto;
+  height: 550px;
 }
 .tablewrapper-chart {
   width: 300px;
@@ -528,7 +563,7 @@ body.modal-open{
     width: 100%;
     border-radius: 10px;
     box-shadow: 0 2px 5px #333;
-    background-color: #ccc;
+    background-color: var(--box-bg);
     padding: 10px;
   }
 
@@ -616,15 +651,7 @@ body.modal-open{
   }
 }
 
-:root {
-  --displacement: -0.1rem;
-  --tremble: -10deg;
-  --trembleF: 5deg;
-  --iPos: 50%;
-  --bPos: -75%;
-  --fPos: -50%;
-  --time: 430ms;
-}
+
 
 /* Modal styles */
 .modal {

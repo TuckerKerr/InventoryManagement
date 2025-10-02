@@ -114,10 +114,18 @@
                     <div class="theme-toggle">
                         <span>DC</span>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="themeToggle" onchange="checkFunction(this)">
+                            <input type="checkbox" id="campusToggle" onchange="checkFunction(this)">
                             <span class="toggle-slider"></span>
                         </label>
                         <span>HS</span>
+                    </div>
+                    <div class="theme-toggle">
+                        <span>Gray</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="themeToggle" onchange="loadTheme(this)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>Blue</span>
                     </div>
                 </div>
         </div>
@@ -227,7 +235,7 @@
                 <h2>Last Used</h2>
             </div>
             <div class="box-content">
-            <div class="tablewrapper-toner">
+            <div class="tablewrapper-admin">
                 <table id="lastTable" border = "1">
                     <thead id="eqHead">
                         <tr>
@@ -264,7 +272,7 @@
                 <h2>Open Equipment Counts</h2>
             </div>
             <div class="box-content">
-                <div class="tablewrapper-toner">
+                <div class="tablewrapper-admin">
                 <table id="openTable" border = "1">
                     <thead id="eqHead">
                         <tr>
@@ -402,6 +410,7 @@
    const menuIcon = document.getElementById("menuIcon");
     const menudropdown = document.getElementById("menudropdown");
     const exportButton = document.getElementById('export');
+    const themeToggle = document.getElementById('themeToggle');
 
   menuIcon.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevents the document click from immediately hiding the dropdown
@@ -447,9 +456,9 @@ function getChart(value){
             const printersLabels = [];
             const printersValues = [];
 
-            const backgroundColors = ['#333', '#ffffff', '#1a1a1a', 
-            '#4d4d4d', '#e6e6e6', '#555555', 
-            '#919191', '#8a8a8a', '#707070'];
+            const backgroundColors = ['#8B9556 ', '#6B7F5C ', '#9CAF88 ', 
+            '#4A5240 ', '#9CAF88', '#6B7F5C', 
+            '#333', '#424033ff', '#4b4e41ff'];
 
             const bar = document.getElementById('generalBar').getContext('2d');
             barChart = new Chart(bar, {
@@ -772,6 +781,18 @@ function getChart(value){
         URL.revokeObjectURL(url); // clean up
         });
 
+        function loadTheme(checkbox) {
+            const currentTheme = checkbox.checked ? 'light' : 'dark';
+            if (currentTheme === 'light') {
+                document.body.classList.add('dark-theme');
+                themeToggle.checked = true;
+                console.log(currentTheme);
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeToggle.checked = false;
+                console.log(currentTheme);
+            }
+        }
         </script>
     </body>
 </html>
