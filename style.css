@@ -52,7 +52,7 @@
 .notification {
   position: fixed;
   top: 50%;
-  right: 45%;
+  left: 40%;
   padding: 15px 25px;
   background-color: red;
   color: white;

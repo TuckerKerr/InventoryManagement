@@ -54,10 +54,15 @@
     });
 
     let idleTime = 0;
+    let refreshTime = 0;
     let idleLimit = 2 * 60 * 1000;
+    let refreshTables = 5 * 60 * 1000;
     let sessionTimeout; 
 
     const resetIdleTimer = () =>{
+        idleTimer = 0;
+    };
+    const resetRefreshTimer = () =>{
         idleTimer = 0;
     };
 /*
@@ -68,11 +73,23 @@
         }
     };
 */
+
+    const trackRefreshTime = () => {
+        refreshTime += 1000;
+        if(refreshTime >= refreshTables){
+            TableLoader();
+            TonerTableLoader();
+            EQTableLoader();
+            resetRefreshTimer();
+        }
+    };
+
     document.onmousemove = resetIdleTimer;
     document.onkeypress = resetIdleTimer;
     document.onclick = resetIdleTimer;
     document.onscroll = resetIdleTimer;
 
+    setInterval(trackRefreshTime, 1000);
     setInterval(trackIdleTime, 1000);
 
         function logout() {
@@ -912,12 +929,20 @@ function TonerTableLoader(){
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
-                    closeButtonAdd();
-                    closeButtonDelete();
-                    TableLoader();
-                    removequantityForm.reset();
+                    if(data.success){
+                        closeButtonAdd();
+                        closeButtonDelete();
+                        TableLoader();
+                        removequantityForm.reset();
+                    }
+                    else{
+                        closeButtonAdd();
+                        closeButtonDelete();
+                        removequantityForm.reset();
+                        showNotification("You're trying to take out too many items")
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
