@@ -232,7 +232,7 @@
                 </div>
                 <div class="box-content">
                     <div class="tablewrapper">
-                   <table id="avtable" border = "1">
+                   <table id="AVtable" border = "1">
                     <thead>
                         <tr>
                             <th style="padding: 0.75rem 1rem;">Quantity</th>
@@ -343,6 +343,7 @@
                     <option value="Macs">Macs</option>
                     <option value="Printers">Printers</option>
                     <option value="Peripherals">Consumable</option>
+                    <option value="AV">Audio/Visual</option>
                     </select>  
 
                     <select id="Campus" name="campus" class="form-inputs" required>
@@ -620,11 +621,11 @@
 
 
   const views = {
-    "tableviews":['PeripheralsInSystem','LaptopsInSystem', 'DesktopsInSystem','MonitorsInSystem', 'PrintersInSystem'
+    "tableviews":['PeripheralsInSystem','LaptopsInSystem', 'DesktopsInSystem','MonitorsInSystem', 'PrintersInSystem', 'AVInSystem'
     ]
   }
   const table = {
-        "tables":["Peripherals","Laptops", "Desktops","Monitors", 'Printers']
+        "tables":["Peripherals","Laptops", "Desktops","Monitors", 'Printers', 'AV']
   }
 
 function TableLoader(){

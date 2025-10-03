@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 try {
 // Check if the 'type-of-delivery' parameter is set
-    $Delivery_types = ['Laptops','Monitors','Desktops','Printers','Peripherals'];
+    $Delivery_types = ['Laptops','Monitors','Desktops','Printers','Peripherals', 'AV'];
     $campus = $_GET['campus'];
 
     // Database connection

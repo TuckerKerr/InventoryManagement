@@ -299,7 +299,6 @@
         </div>
     </div>
 
-
     <div id="ModelAdd" class="popup">
         <div class="popup-content-input">
             <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
@@ -316,39 +315,7 @@
                 <option value="Macs">Macs</option>
                 <option value="Printers">Printers</option>
                 <option value="Peripherals">Consumable</option>
-                </select>  
-
-                <select id="Campus" name="campus" class="form-inputs" required>
-                    <option value="" disabled selected>Enter Campus</option>
-                    <option value="Downcity">Downcity</option>
-                    <option value="Harborside">Harborside</option>
-                </select>
-                
-                <button type="submit"name="action" value="add"
-                class="action-btn" style="margin-left:0px; margin-bottom: 10px;">Add</button>
-
-                <button type="submit" name="action" value="remove"
-                class="action-btn" style="margin-left:0px; margin-top: 10px;">Remove</button>
-                </form>
-        </div>
-    </div>
-
-    <div id="ModelAdd" class="popup">
-        <div class="popup-content-input">
-            <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Add/Remove Model</h2>
-                <form id="ModelForm" style="display: flex; flex-direction: column;">
-
-                <input type="text" id="Model-Tag" class="form-inputs" name="model-tag" placeholder="Model" maxlength="255" required>
-
-                <select id="Type-of-Delivery" name="type-of-delivery" class="form-inputs" required>
-                <option value="" disabled selected>Select the Type of Equipment</option>
-                <option value="Laptops">Laptop</option>
-                <option value="Desktops">Desktops</option>
-                <option value="Monitors">Monitors</option>
-                <option value="Macs">Macs</option>
-                <option value="Printers">Printers</option>
-                <option value="Peripherals">Consumable</option>
+                <option value="AV">Audio/Visual</option>
                 </select>  
 
                 <select id="Campus" name="campus" class="form-inputs" required>
@@ -467,7 +434,7 @@ function getChart(value){
                     labels: allLabels,
                     datasets: [{
                         label: '',
-                        backgroundColor: '#333',
+                        backgroundColor: backgroundColors,
                         hoverBackgroundColor: 'black',
                         data: allValues,
                     }]
@@ -735,7 +702,8 @@ function getChart(value){
                 .then(response => response.text())
                 .then(data => {
                     closeModelAdd();
-                    TableLoader();
+                    totalCount();
+                    checkFunction();
                     modelForm.reset();
                 })
                 .catch(error => {

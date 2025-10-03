@@ -37,6 +37,11 @@ try {
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
+        case 'AVInSystem':
+            $query = "SELECT * FROM AVInSystem ORDER BY `Num_units` + 0 DESC";
+            $stmt = $pdo->query($query);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            break;
             
         case 'stickertableResults':
             $query = "SELECT * FROM stickertableResults";
