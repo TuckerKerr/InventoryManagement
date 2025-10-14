@@ -636,7 +636,7 @@
 
   //Code for the views
 
-
+  //when adding a new type of equipment into the system add the view, the table, and then go to expand and add it there as well as adding a table
   const views = {
     "tableviews":['PeripheralsInSystem','LaptopsInSystem', 'DesktopsInSystem','MonitorsInSystem', 'PrintersInSystem', 'AVInSystem'
     ]

@@ -133,6 +133,9 @@
 
 <div class="main-content">
     <div class="title">Inventory Management</div>
+<!-- These are all of the boxes for the inventory charts to populate to
+    If you need to add more, simply create or add a new container
+-->
 <div class="box-container">
     <div class="admin-left-column">
         <div class="box top-box">
@@ -298,7 +301,9 @@
             </div>
         </div>
     </div>
+<!-- This is the end of all of the boxes that you see when you load the page-->
 
+<!-- Here is the popup to add models from the admin page if they are not on the main page but still has to do admin tasks-->
     <div id="ModelAdd" class="popup">
         <div class="popup-content-input">
             <button class="close-popup" onclick="closeModelAdd()"><i class="fa-solid fa-xmark"></i></button>
@@ -335,26 +340,14 @@
 
 </div>
 
-<div class="overlay" id="overlay"></div>
+<!-- End of the popup code-->
     
 <footer>
     <p>© Johnson & Wales University 2025</p>
  </footer>
     <div class="decorative-line"></div>
     <div class = "search-header"></div>
-    </div> 
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <h2>Please Enter Information</h2>
-        <form id="inputForm">
-            <label for="userInput">Your Input:</label>
-            <input type="text" id="userInput" name="userInput" required>
-            <button type="submit" onclick="delayedFetch()">Submit</button>
-        </form>
-    </div>
-</div>
-  </div>
+
     <script>
     //Dropdown Code for profile icon
     const profileIcon = document.getElementById("profileIcon");
@@ -373,11 +366,13 @@
     }
   });
 
-
-   const menuIcon = document.getElementById("menuIcon");
+    //Dropdown Code for menu icon and items within it
+    const menuIcon = document.getElementById("menuIcon");
     const menudropdown = document.getElementById("menudropdown");
-    const exportButton = document.getElementById('export');
     const themeToggle = document.getElementById('themeToggle');
+
+    //Export for the csv file
+    const exportButton = document.getElementById('export');
 
   menuIcon.addEventListener("click", function (e) {
     e.stopPropagation(); // Prevents the document click from immediately hiding the dropdown
@@ -394,6 +389,7 @@
 
     //End of Dropdown Code
 
+    //These allow for the charts to be created and deletes when the page is switched from downcity to harborside 
     let barChart;
     let lapPie;
     let monPie;
@@ -407,6 +403,7 @@ function getChart(value){
     fetch(`query/chartData.php?campus=${campus}`)
         .then(response => response.json())
         .then(data => {
+            //get data in an array based on the values passed along with them
             const allLabels = data.labels;
             const allValues = data.values;
             const allTypes = data.type;
@@ -474,6 +471,7 @@ function getChart(value){
                         tooltip: {
                             callbacks: {
                                 label: function(context){
+                                    //Code for the percentages of each model type in pie charts
                                     const dataset= context.dataset;
                                     const total = dataset.data.reduce((sum, val) => sum + val, 0);
                                     const value = dataset.data[context.dataIndex];
@@ -602,6 +600,7 @@ function getChart(value){
         })
 
 }
+    //Searches the campus for all of their data and puts it in the total quantity table
     function totalCount(event){
         const campus = event;
         fetch(`query/chartData.php?campus=${campus}`)
@@ -625,6 +624,7 @@ function getChart(value){
                 .catch(error => console.error('Error fetching data:', error));
             }
 
+    //Searches and retrieves the data for the table that holds the last 10 orders taken out of the system
     function RetrievedTableLoader(){
         fetch(`query/expand.php?view=lastRetrieved`)
             .then(response=> response.json())
@@ -647,6 +647,7 @@ function getChart(value){
                 .catch(error => console.error('Error fetching data:', error));
             }
 
+    //This will fetch and show the quantity of all of the open items in the department
     function OpenTableLoader(){
         fetch(`query/openCount.php`)
             .then(response=> response.json())
@@ -672,6 +673,7 @@ function getChart(value){
                 .catch(error => console.error('Error fetching data:', error));
             }
 
+        //creating an instance for the form to open the form and close it
         const modelAR = document.getElementById('ModelAdd');
         const modelForm = document.getElementById('ModelForm');
 
@@ -687,6 +689,7 @@ function getChart(value){
             modelForm.reset();
         }
 
+        //if the form is submitted add or remove it the model then reset all the charts and data
         modelForm.addEventListener('submit',function(event){
         event.preventDefault();
 
@@ -711,6 +714,7 @@ function getChart(value){
                 });
     });
 
+    //gets called when the campus is changed to destroy the other campus' charts to create the current campus'
     function checkFunction(checkbox){
         const isChecked = checkbox.checked ? 'Harborside' : 'Downcity';
         console.log(isChecked);
@@ -724,6 +728,7 @@ function getChart(value){
         totalCount(isChecked);
     }
 
+    //code for the export csv file
     document.getElementById('export').addEventListener('click', () => {
         const table = document.getElementById('allTable');
         let csv = [];
