@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <style>
+        body {
+            font-family: 'Tomorrow', sans-serif;
+            background-color: #665959;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 80%;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #302929;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #302929;
+        }
+
+        .decorative-line {
+            width: 100%;
+            height: 2px;
+            background-color: #302929;
+            margin: 20px 0;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .switch-text a {
+            color: #302929;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 id="formHeader">Login</h2>
+        <div class="decorative-line"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" action="login.php" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required autocomplete="username">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+
+            <input type="submit" value="Login">
+        </form>
+
+        <!-- Registration Form -->
+        <form id="registerForm" action="register.php" method="POST" style="display: none;">
+            <label for="registerUsername">Username:</label>
+            <input type="text" id="registerUsername" name="username" required autocomplete="username">
+            <h5 style="margin-top: 1px;">*It must be the first name of an active worker*</h5>
+
+            <label for="registerPassword">Password:</label>
+            <input type="password" id="registerPassword" name="password" required autocomplete="new-password">
+
+            <input type="submit" value="Register">
+        </form>
+
+        <!-- Switch between Login and Register -->
+        <div class="switch-text">
+            <span id="toggleText">Haven't registered?</span> 
+            <a id="toggleLink" href="#">Register</a>
+            <br>
+            <span id="switchText">Go to Sts? </span>
+            <a id="switchSite" href="../sts/index.html">STS</a>
+            
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        const formHeader = document.getElementById("formHeader");
+        const toggleText = document.getElementById("toggleText");
+        const toggleLink = document.getElementById("toggleLink");
+        const switchText = document.getElementById("switchText");
+        const switchSite = document.getElementById("switchSite");
+
+        // Toggle between login and register forms
+        toggleLink.onclick = function (event) {
+            event.preventDefault(); // Prevent the link from acting like a normal link
+
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+                formHeader.textContent = "Login";
+                toggleText.textContent = "Haven't registered?";
+                toggleLink.textContent = "Register";
+                switchText.textContent = "Go To Sts?";
+                switchSite.textContent = "STS";
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+                formHeader.textContent = "Register";
+                toggleText.textContent = "Need to sign in?";
+                toggleLink.textContent = "Sign In";
+                switchText.textContent = "Go To Sts?";
+                switchSite.textContent = "STS";
+            }
+        };
+
+        // Handle the login form submission
+        loginForm.onsubmit = function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(loginForm);
+
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())  // Parse JSON response
+            .then(data => {
+                console.log('Response:', data); // Log the response for debugging
+                if (data.success) {
+                    // If login is successful
+                    sessionStorage.setItem('isLoggedIn', 'true'); // Set login status
+                    sessionStorage.setItem('is_staff', data.is_staff); // Store is_staff status
+                    sessionStorage.setItem('userName', data.message.split("Welcome, ")[1].split(".")[0].trim()); // Store the user's name
+
+                    window.location.href = 'main.php'; // Redirect to the main page after successful login
+                } else {
+                    // Show notification for failed login
+                    showNotification(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification("An error occurred. Please try again.");
+            });
+        };
+
+        // Handle the registration form submission
+        registerForm.onsubmit = function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(registerForm);
+
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Response:', data); // Log the response for debugging
+                if (data && data.includes("Registration successful")) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('userName', data.split("Welcome, ")[1].split(".")[0].trim());
+                    window.location.href = 'index.html';
+                } else {
+                    showNotification(data);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        };
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '10px';
+            notification.style.right = '10px';
+            notification.style.backgroundColor = '#ffcc00';
+            notification.style.padding = '10px';
+            notification.style.borderRadius = '5px';
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
