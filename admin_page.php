@@ -340,20 +340,6 @@
 
 </div>
 
-
-<!-- Adding an order form for the admin of the pages to order inventory from campuses to transfer storage between areas-->
-<div class="ordersBox">
-    <div class="orders-box-container">
-        <div class="table-header" style="width: 101%;">
-                <h2>Order Sheet</h2>
-            </div>
-            <div>
-              
-        </div>
-    </div>
-</div>
-    
-
 <!-- End of the popup code-->
     
 <footer>
