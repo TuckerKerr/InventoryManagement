@@ -120,7 +120,7 @@
             <input type="password" id="registerPassword" name="password" required autocomplete="new-password">
 
             <label for="registerEmail">Email:</label>
-            <input type="password" id="registerEmail" name="email" required>
+            <input type="text" id="registerEmail" name="email" required>
 
             <input type="submit" value="Register">
         </form>
@@ -214,7 +214,7 @@
                 console.log('Response:', data); // Log the response for debugging
                 if (data && data.includes("Registration successful")) {
                     sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('userName', data.split("Welcome, ")[1].split(".")[0].trim());
+                    sessionStorage.setItem('userName', data.name);
                     window.location.href = 'index.html';
                 } else {
                     showNotification(data);
