@@ -91,25 +91,16 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             else {
 
             // Check agreement status
-            if ($row['agreement'] === 'no') {
-                debugLog("User needs to accept agreement", $user);
-                echo json_encode([
-                    "success" => true,
-                    "needs_agreement" => true,
-                    "user_id" => $row['id'],
-                    "name" => $user,
-                    "is_staff" => $_SESSION['is_staff'],
-                    "campus" => $_SESSION['campus']
-                ]);
-            } else {
-                echo json_encode([
-                    "success" => true,
-                    "needs_agreement" => false,
-                    "name" => $user,
-                    "is_staff" => $_SESSION['is_staff'],
-                    "campus" => $_SESSION['campus']
-                ]);
-            }
+            debugLog("User needs to accept agreement", $user);
+            echo json_encode([
+                "success" => true,
+                "needs_agreement" => true,
+                "user_id" => $row['id'],
+                "name" => $user,
+                "is_staff" => $_SESSION['is_staff'],
+                "campus" => $_SESSION['campus']
+            ]);
+            
         }
         } else {
             debugLog("Password verification failed for user", $user);
