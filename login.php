@@ -89,17 +89,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             echo json_encode(["success" => false, "message" => "User needs an email."]);
             } 
             else {
-
-            // Check agreement status
-            debugLog("User needs to accept agreement", $user);
-            echo json_encode([
-                "success" => true,
-                "needs_agreement" => true,
-                "user_id" => $row['id'],
-                "name" => $user,
-                "is_staff" => $_SESSION['is_staff'],
-                "campus" => $_SESSION['campus']
-            ]);
+                echo json_encode([
+                    "success" => true,
+                    "needs_agreement" => true,
+                    "user_id" => $row['id'],
+                    "name" => $user,
+                    "is_staff" => $_SESSION['is_staff'],
+                    "campus" => $_SESSION['campus']
+                ]);
             
         }
         } else {

@@ -182,7 +182,6 @@
                     // If login is successful
                     sessionStorage.setItem('isLoggedIn', 'true'); // Set login status
                     sessionStorage.setItem('is_staff', data.is_staff); // Store is_staff status
-                    sessionStorage.setItem('userName', data.message.split("Welcome, ")[1].split(".")[0].trim()); // Store the user's name
 
                     window.location.href = 'main.php'; // Redirect to the main page after successful login
                 } else {
