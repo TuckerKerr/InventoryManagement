@@ -7,7 +7,7 @@ error_log('Error in login.php'); // Test error logging
 session_start();
 
 // Database connection parameters
-include('../db_connection.php');
+include('db_connection.php');
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
