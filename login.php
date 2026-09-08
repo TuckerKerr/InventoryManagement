@@ -1,14 +1,21 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0); // Disable error display in the response
+ini_set('log_errors', 1);    // Enable error logging
+error_log('Error in login.php'); // Test error logging
 
 // Start the session
 session_start();
 
-// Database connection settings
-include('db_conn.php');
+// Database connection parameters
+include('db_connection.php');
+
+// Create a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die(json_encode(["success" => false, "message" => "Connection failed: " . $conn->connect_error]));
+}
 
 // Function to log debug information
 function debugLog($message, $data = null) {
@@ -22,31 +29,34 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     debugLog("Attempting login for user", $user);
 
-    // Modified query to ensure we get all necessary information
+    // Modified query to include agreement status (ENUM column)
     $sql = "
         SELECT 
             u.password_hash,
-            COALESCE(w.campus, 'student') as campus,
+            u.agreement,
+            u.id,
+            u.email,
+            COALESCE(c.campus, 'student') as campus,
             CASE 
-                WHEN w.campus = 'staff' THEN 1
+                WHEN c.campus = 'staff' THEN 1
                 ELSE 0
             END as is_staff
         FROM users u 
-        LEFT JOIN workers w ON u.name = w.name 
-        WHERE u.name = ?
+        LEFT JOIN campus_student_workers c ON u.username = c.student_name 
+        WHERE u.username = ?
     ";
 
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         debugLog("Prepare statement failed", $conn->error);
-        die("Failed to prepare statement: " . $conn->error);
+        die(json_encode(["success" => false, "message" => "Failed to prepare statement: " . $conn->error]));
     }
 
     $stmt->bind_param("s", $user);
     
     if (!$stmt->execute()) {
         debugLog("Execute failed", $stmt->error);
-        die("Failed to execute query: " . $stmt->error);
+        die(json_encode(["success" => false, "message" => "Failed to execute query: " . $stmt->error]));
     }
 
     $result = $stmt->get_result();
@@ -55,51 +65,57 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $row = $result->fetch_assoc();
         debugLog("Query result", $row);
 
+
+        
         // Verify the password
         if (password_verify($pass, $row['password_hash'])) {
             // Set session variables
             $_SESSION['username'] = $user;
-            $_SESSION['is_staff'] = (bool)$row['is_staff']; // Explicitly cast to boolean
+            $_SESSION['is_staff'] = (bool)$row['is_staff'];
             $_SESSION['campus'] = $row['campus'];
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
 
             debugLog("Session variables set", [
                 'username' => $_SESSION['username'],
+                'email' => $_SESSION['email'],
                 'is_staff' => $_SESSION['is_staff'],
-                'campus' => $_SESSION['campus']
+                'campus' => $_SESSION['campus'],
+                'user_id' => $_SESSION['user_id']
             ]);
 
-            // Send success response with user and is_staff info as JSON
-            echo json_encode([
-                'success' => true,
-                'message' => "Login successful! Welcome, " . htmlspecialchars($user),
-                'is_staff' => $_SESSION['is_staff'],
-                'campus' => $_SESSION['campus']
-            ]);
+            if($row['email'] === ''){
+            debugLog("No email found", $user);
+            echo json_encode(["success" => false, "message" => "User needs an email."]);
+            } 
+            else {
+                echo json_encode([
+                    "success" => true,
+                    "needs_agreement" => true,
+                    "user_id" => $row['id'],
+                    "name" => $user,
+                    "is_staff" => $_SESSION['is_staff'],
+                    "campus" => $_SESSION['campus']
+                ]);
+            
+        }
         } else {
             debugLog("Password verification failed for user", $user);
-            echo json_encode([
-                'success' => false,
-                'error' => "Invalid password."
-            ]);
+            echo json_encode(["success" => false, "message" => "Invalid password."]);
         }
+        
+
     } else {
         debugLog("No user found", $user);
-        echo json_encode([
-            'success' => false,
-            'error' => "Username not found."
-        ]);
+        echo json_encode(["success" => false, "message" => "Username not found."]);
     }
 
     // Close statement
     $stmt->close();
 } else {
     debugLog("Invalid request - missing username or password");
-    echo json_encode([
-        'success' => false,
-        'error' => "Invalid request. Username or password not set."
-    ]);
+    echo json_encode(["success" => false, "message" => "Invalid request. Username or password not set."]);
 }
 
 // Close the connection
 $conn->close();
-?>

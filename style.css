@@ -356,7 +356,7 @@ body.modal-open{
   border-radius: 4px;
   background: var(--bg);
   transition: 0.2s;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .action-btn:hover {
@@ -425,6 +425,27 @@ body.modal-open{
     margin-right: 25px;
     margin-left: 10px;
     margin-bottom: 10px;
+}
+
+.orders-box-container {
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-right: 25px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ordersBox{
+  margin-left: 10px;
+  margin-right: 25px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px #333;
+  background-color: var(--box-bg);
+  padding: 10px;
 }
 
 .tonerBottom-left,

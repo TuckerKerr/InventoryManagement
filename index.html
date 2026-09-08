@@ -119,6 +119,9 @@
             <label for="registerPassword">Password:</label>
             <input type="password" id="registerPassword" name="password" required autocomplete="new-password">
 
+            <label for="registerEmail">Email:</label>
+            <input type="text" id="registerEmail" name="email" required>
+
             <input type="submit" value="Register">
         </form>
 
@@ -182,7 +185,7 @@
                     // If login is successful
                     sessionStorage.setItem('isLoggedIn', 'true'); // Set login status
                     sessionStorage.setItem('is_staff', data.is_staff); // Store is_staff status
-                    sessionStorage.setItem('userName', data.message.split("Welcome, ")[1].split(".")[0].trim()); // Store the user's name
+                    sessionStorage.setItem('userName', data.name); // Store the user's name
 
                     window.location.href = 'main.php'; // Redirect to the main page after successful login
                 } else {
@@ -211,7 +214,7 @@
                 console.log('Response:', data); // Log the response for debugging
                 if (data && data.includes("Registration successful")) {
                     sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('userName', data.split("Welcome, ")[1].split(".")[0].trim());
+                    sessionStorage.setItem('userName', data.name);
                     window.location.href = 'index.html';
                 } else {
                     showNotification(data);

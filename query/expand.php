@@ -75,7 +75,7 @@ try {
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
         case 'lastRetrieved':
-            $query = "SELECT * FROM lastRetrieved ORDER BY `transfer_date` ASC LIMIT 10";
+            $query = "SELECT * FROM lastRetrieved ORDER BY `transfer_date` DESC LIMIT 10";
             $stmt = $pdo->query($query);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             break;
