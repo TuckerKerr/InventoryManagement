@@ -61,3 +61,4 @@ The current source refers to different connection paths:
 - Several read endpoints: `db_conn.php` without an explicit parent directory.
 
 All of these configuration files are missing from the reviewed working tree. Standardize inventory imports to an explicit path such as `require_once __DIR__ . '/../db_conn.php';` before relying on a root configuration file. Account data may use a separate database, so confirm that before consolidating connections. Keep actual credentials outside Git and add sanitized configuration examples.
+
